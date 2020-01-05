@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <typeHandlers>
+        <typeHandler handler="org.apache.ibatis.type.EnumOrdinalTypeHandler" javaType="finley.gmair.model.payment.TradeState"/>
+    </typeHandlers>
+    <mappers>
+        <mapper resource="mapper/student.xml" />
+        <mapper resource="mapper/game.xml" />
+        <mapper resource="mapper/adept.xml" />
+        <mapper resource="mapper/play.xml" />
+        <mapper resource="mapper/participant.xml" />
+        <mapper resource="mapper/show.xml" />
+        <mapper resource="mapper/question.xml" />
+    </mappers>
+</configuration>
