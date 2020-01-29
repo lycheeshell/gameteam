@@ -12,7 +12,7 @@ public class Student extends Entity {
     private String account;
     private String password;
     private String phone;
-    private String mail;
+    private String email;
     private int sex;
     private Timestamp birthday;
     private String school;      //学校
@@ -59,12 +59,12 @@ public class Student extends Entity {
         this.phone = phone;
     }
 
-    public String getMail() {
-        return mail;
+    public String getEmail() {
+        return email;
     }
 
-    public void setMail(String mail) {
-        this.mail = mail;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public int getSex() {

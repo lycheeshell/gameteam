@@ -11,7 +11,7 @@ public class Manager {
     private String account;
     private String password;
     private String phone;
-    private String mail;
+    private String email;
 
     public Manager() {
         super();
@@ -49,11 +49,11 @@ public class Manager {
         this.phone = phone;
     }
 
-    public String getMail() {
-        return mail;
+    public String getEmail() {
+        return email;
     }
 
-    public void setMail(String mail) {
-        this.mail = mail;
+    public void setEmail(String email) {
+        this.email = email;
     }
 }
