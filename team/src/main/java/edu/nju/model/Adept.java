@@ -8,8 +8,8 @@ package edu.nju.model;
 public class Adept extends Entity {
 
     private String adeptId;
-    private Student student;
-    private Game game;
+    private String studentId;
+    private String gameId;
     private int score;       //熟练分
 
     public Adept() {
@@ -24,20 +24,20 @@ public class Adept extends Entity {
         this.adeptId = adeptId;
     }
 
-    public Student getStudent() {
-        return student;
+    public String getStudentId() {
+        return studentId;
     }
 
-    public void setStudent(Student student) {
-        this.student = student;
+    public void setStudentId(String studentId) {
+        this.studentId = studentId;
     }
 
-    public Game getGame() {
-        return game;
+    public String getGameId() {
+        return gameId;
     }
 
-    public void setGame(Game game) {
-        this.game = game;
+    public void setGameId(String gameId) {
+        this.gameId = gameId;
     }
 
     public int getScore() {

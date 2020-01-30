@@ -8,9 +8,9 @@ package edu.nju.model;
 public class Show extends Entity {
 
     private String showId;
-    private Play play;
-    private Student from;
-    private Student to;
+    private String playId;
+    private String fromStudetnId;
+    private String toStudentId;
 
     public Show() {
         super();
@@ -24,27 +24,27 @@ public class Show extends Entity {
         this.showId = showId;
     }
 
-    public Play getPlay() {
-        return play;
+    public String getPlayId() {
+        return playId;
     }
 
-    public void setPlay(Play play) {
-        this.play = play;
+    public void setPlayId(String playId) {
+        this.playId = playId;
     }
 
-    public Student getFrom() {
-        return from;
+    public String getFromStudetnId() {
+        return fromStudetnId;
     }
 
-    public void setFrom(Student from) {
-        this.from = from;
+    public void setFromStudetnId(String fromStudetnId) {
+        this.fromStudetnId = fromStudetnId;
     }
 
-    public Student getTo() {
-        return to;
+    public String getToStudentId() {
+        return toStudentId;
     }
 
-    public void setTo(Student to) {
-        this.to = to;
+    public void setToStudentId(String toStudentId) {
+        this.toStudentId = toStudentId;
     }
 }

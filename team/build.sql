@@ -29,6 +29,8 @@ CREATE TABLE `adept` (
   `student_id` varchar(40) DEFAULT NULL,
   `game_id` varchar(40) DEFAULT NULL,
   `score` int(3) DEFAULT NULL,
+  `block_flag` tinyint(1) DEFAULT NULL,
+  `create_time` datetime DEFAULT NULL,
   PRIMARY KEY (`adept_id`),
   KEY `student_adept_key_idx` (`student_id`),
   KEY `game_adept_key_idx` (`game_id`),
@@ -49,6 +51,8 @@ CREATE TABLE `game` (
   `name` varchar(10) DEFAULT NULL,
   `description` varchar(100) DEFAULT NULL,
   `image_url` varchar(50) DEFAULT NULL,
+  `block_flag` tinyint(1) DEFAULT NULL,
+  `create_time` datetime DEFAULT NULL,
   PRIMARY KEY (`game_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -81,6 +85,8 @@ CREATE TABLE `participant` (
   `participant_id` varchar(40) NOT NULL,
   `play_id` varchar(40) NOT NULL,
   `student_id` varchar(40) NOT NULL,
+  `block_flag` tinyint(1) DEFAULT NULL,
+  `create_time` datetime DEFAULT NULL,
   PRIMARY KEY (`participant_id`),
   KEY `student_participant_key_idx` (`student_id`),
   KEY `play_participant_key_idx` (`play_id`),
@@ -108,6 +114,8 @@ CREATE TABLE `play` (
   `max_person` int(2) DEFAULT NULL,
   `min_adept_score` int(3) DEFAULT NULL,
   `status` tinyint(1) DEFAULT NULL,
+  `block_flag` tinyint(1) DEFAULT NULL,
+  `create_time` datetime DEFAULT NULL,
   PRIMARY KEY (`play_id`),
   KEY `game_play_key_idx` (`game_id`),
   CONSTRAINT `game_play_key` FOREIGN KEY (`game_id`) REFERENCES `game` (`game_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
@@ -124,12 +132,14 @@ DROP TABLE IF EXISTS `question`;
 CREATE TABLE `question` (
   `question_id` varchar(40) NOT NULL,
   `game_id` varchar(40) NOT NULL,
-  `decription` varchar(50) DEFAULT NULL,
+  `description` varchar(50) DEFAULT NULL,
   `a` varchar(30) DEFAULT NULL,
   `b` varchar(30) DEFAULT NULL,
   `c` varchar(30) DEFAULT NULL,
   `d` varchar(30) DEFAULT NULL,
   `correct_option` varchar(2) DEFAULT NULL,
+  `block_flag` tinyint(1) DEFAULT NULL,
+  `create_time` datetime DEFAULT NULL,
   PRIMARY KEY (`question_id`),
   KEY `game_question_key_idx` (`game_id`),
   CONSTRAINT `game_question_key` FOREIGN KEY (`game_id`) REFERENCES `game` (`game_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
@@ -148,6 +158,8 @@ CREATE TABLE `show` (
   `play_id` varchar(40) NOT NULL,
   `from_id` varchar(40) NOT NULL,
   `to_id` varchar(40) NOT NULL,
+  `block_flag` tinyint(1) DEFAULT NULL,
+  `create_time` datetime DEFAULT NULL,
   PRIMARY KEY (`show_id`),
   KEY `play_show_key_idx` (`play_id`),
   KEY `from_show_key_idx` (`from_id`),
@@ -180,6 +192,8 @@ CREATE TABLE `student` (
   `wx_id` varchar(40) DEFAULT NULL,
   `openid` varchar(40) DEFAULT NULL,
   `session_key` varchar(40) DEFAULT NULL,
+  `block_flag` tinyint(1) DEFAULT NULL,
+  `create_time` datetime DEFAULT NULL,
   PRIMARY KEY (`student_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -193,4 +207,4 @@ CREATE TABLE `student` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-01-29 20:49:55
+-- Dump completed on 2020-01-30  2:18:20

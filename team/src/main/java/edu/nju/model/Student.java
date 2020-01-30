@@ -16,8 +16,8 @@ public class Student extends Entity {
     private int sex;
     private Timestamp birthday;
     private String school;      //学校
-    private int start_year;     //入学年份
-    private String photo_url;   //头像图片的url
+    private int startYear;     //入学年份
+    private String photoUrl;   //头像图片的url
     private int credit;         //信用分
     private String wx_id;
     private String openid;
@@ -91,20 +91,20 @@ public class Student extends Entity {
         this.school = school;
     }
 
-    public int getStart_year() {
-        return start_year;
+    public int getStartYear() {
+        return startYear;
     }
 
-    public void setStart_year(int start_year) {
-        this.start_year = start_year;
+    public void setStartYear(int startYear) {
+        this.startYear = startYear;
     }
 
-    public String getPhoto_url() {
-        return photo_url;
+    public String getPhotoUrl() {
+        return photoUrl;
     }
 
-    public void setPhoto_url(String photo_url) {
-        this.photo_url = photo_url;
+    public void setPhotoUrl(String photoUrl) {
+        this.photoUrl = photoUrl;
     }
 
     public int getCredit() {

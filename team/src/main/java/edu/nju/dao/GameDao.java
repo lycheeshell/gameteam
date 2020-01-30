@@ -1,8 +1,18 @@
 package edu.nju.dao;
 
+import edu.nju.model.Game;
+import edu.nju.util.ResultData;
+
 /**
  * @Author ：lycheeshell
  * @Date ：Created in 16:20 2020/1/8
  */
 public interface GameDao {
+
+    ResultData insert(Game game);
+
+    ResultData update(Game game);
+
+    ResultData delete(String gameId);
+
 }

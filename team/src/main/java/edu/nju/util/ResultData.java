@@ -62,9 +62,8 @@ public class ResultData {
         return new ResultData(555, msg, null);
     }
 
-    public ResultData() {
-
-    }
+//    public ResultData() {
+//    }
 
 //    public static LeeJSONResult build(Integer status, String msg) {
 //        return new LeeJSONResult(status, msg, null);

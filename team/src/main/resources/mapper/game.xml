@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="nju.team.game">
+    <resultMap id="infoVo" type="edu.nju.model.Game">
+        <result property="gameId" column="game_id"></result>
+        <result property="name" column="name"></result>
+        <result property="description" column="description"></result>
+        <result property="imageUrl" column="image_url"></result>
+        <result property="blockFlag" column="block_flag"></result>
+        <result property="createAt" column="create_time"></result>
+    </resultMap>
+
+    <insert id="insert" parameterType="edu.nju.model.Game">
+        insert into gameteam.game(game_id, name, description, image_url, block_flag, create_time)
+        values (#{gameId}, #{name}, #{description}, #{imageUrl}, #{blockFlag}, #{createAt})
+    </insert>
+
+    <update id="update" parameterType="edu.nju.model.Game">
+        update gameteam.game
+        <set>
+            <if test="name != null">
+                name = #{name},
+            </if>
+            <if test="description != null">
+                description = #{description},
+            </if>
+            <if test="imageUrl != null">
+                image_url = #{imageUrl},
+            </if>
+            game_id = #{gameId}
+        </set>
+        where game_id = #{gameId}
+    </update>
+
+    <delete id="delete" parameterType="java.util.Map">
+        UPDATE gameteam.game
+        SET
+        block_flag = 1
+        WHERE
+        game_id = #{gameId}
+    </delete>
+
+    <select id="query" parameterType="java.util.Map" resultMap="infoVo">
+        select game_id, name, description, image_url, block_flag, create_time
+        from gameteam.game
+        where block_flag = 0
+        <if test="gameId != null">
+            AND game_id = #{gameId}
+        </if>
+    </select>
+
+</mapper>

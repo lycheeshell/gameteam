@@ -9,7 +9,7 @@ public class Game extends Entity {
     private String gameId;
     private String name;
     private String description;
-    private String image_url;    //游戏图片的url
+    private String imageUrl;    //游戏图片的url
 
     public Game() {
         super();
@@ -39,11 +39,11 @@ public class Game extends Entity {
         this.description = description;
     }
 
-    public String getImage_url() {
-        return image_url;
+    public String getImageUrl() {
+        return imageUrl;
     }
 
-    public void setImage_url(String image_url) {
-        this.image_url = image_url;
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 }

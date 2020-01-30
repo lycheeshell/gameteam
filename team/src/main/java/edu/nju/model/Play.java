@@ -9,7 +9,7 @@ import java.sql.Timestamp;
 public class Play extends Entity {
 
     private String playId;
-    private Game game;
+    private String gameId;
     private Timestamp startTime;  //线下游戏开始时间
     private Timestamp endTime;    //线下游戏结束时间
     private String province;      //省
@@ -32,12 +32,12 @@ public class Play extends Entity {
         this.playId = playId;
     }
 
-    public Game getGame() {
-        return game;
+    public String getGameId() {
+        return gameId;
     }
 
-    public void setGame(Game game) {
-        this.game = game;
+    public void setGameId(String gameId) {
+        this.gameId = gameId;
     }
 
     public Timestamp getStartTime() {

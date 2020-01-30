@@ -8,7 +8,7 @@ package edu.nju.model;
 public class Question extends Entity {
 
     private String questionId;
-    private Game game;
+    private String gameId;
     private String description;   //题目描述
     private String a;             //A选项
     private String b;             //B选项
@@ -28,12 +28,12 @@ public class Question extends Entity {
         this.questionId = questionId;
     }
 
-    public Game getGame() {
-        return game;
+    public String getGameId() {
+        return gameId;
     }
 
-    public void setGame(Game game) {
-        this.game = game;
+    public void setGameId(String gameId) {
+        this.gameId = gameId;
     }
 
     public String getDescription() {
