@@ -50,7 +50,7 @@ CREATE TABLE `game` (
   `game_id` varchar(40) NOT NULL,
   `name` varchar(10) DEFAULT NULL,
   `description` varchar(100) DEFAULT NULL,
-  `image_url` varchar(50) DEFAULT NULL,
+  `image_url` varchar(100) DEFAULT NULL,
   `block_flag` tinyint(1) DEFAULT NULL,
   `create_time` datetime DEFAULT NULL,
   PRIMARY KEY (`game_id`)

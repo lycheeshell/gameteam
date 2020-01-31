@@ -13,6 +13,8 @@ public interface GameDao {
 
     ResultData update(Game game);
 
+    ResultData updateImage(Game game);
+
     ResultData delete(String gameId);
 
 }

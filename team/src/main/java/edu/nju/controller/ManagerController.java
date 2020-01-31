@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
+
 /**
  * @Author ：lycheeshell
  * @Date ：Created in 23:52 2020/1/29
@@ -37,12 +39,12 @@ public class ManagerController {
     /**
      * 更新游戏的图片
      * @param gameId
-     * @param image
+     * @param file
      * @return
      */
     @PostMapping(value = "/updateGameImage")
-    public ResultData updateGameImage(String gameId, @RequestParam("image")MultipartFile image) {
-        return gameService.updateGameImage(gameId, image);
+    public ResultData updateGameImage(String gameId, @RequestParam("file")MultipartFile file, HttpServletRequest request) {
+        return gameService.updateGameImage(gameId, file, request);
     }
 
     /**

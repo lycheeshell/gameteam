@@ -43,6 +43,20 @@ public class GameDaoImpl extends BaseDao implements GameDao {
     }
 
     @Override
+    public ResultData updateImage(Game game) {
+        ResultData result;
+        try {
+            sqlSession.update("nju.team.game.updateImage", game);
+            result = ResultData.ok(game);
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            result = ResultData.errorMsg(e.getMessage());
+        }
+        return result;
+    }
+
+    @Override
     public ResultData delete(String gameId) {
         ResultData result;
         try {

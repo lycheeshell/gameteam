@@ -2,6 +2,7 @@ package edu.nju.service;
 
 import edu.nju.util.ResultData;
 import org.springframework.web.multipart.MultipartFile;
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * @Author ：lycheeshell
@@ -15,6 +16,6 @@ public interface GameService {
 
     ResultData updateGame(String gameId, String name, String description);
 
-    ResultData updateGameImage(String gameId, MultipartFile image);
+    ResultData updateGameImage(String gameId, MultipartFile file, HttpServletRequest request);
 
 }

@@ -24,6 +24,14 @@
             <if test="description != null">
                 description = #{description},
             </if>
+            game_id = #{gameId}
+        </set>
+        where game_id = #{gameId}
+    </update>
+
+    <update id="updateImage" parameterType="edu.nju.model.Game">
+        update gameteam.game
+        <set>
             <if test="imageUrl != null">
                 image_url = #{imageUrl},
             </if>

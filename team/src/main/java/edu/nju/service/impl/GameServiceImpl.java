@@ -9,6 +9,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
+import java.io.File;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Random;
+
 /**
  * @Author ：lycheeshell
  * @Date ：Created in 16:19 2020/1/8
@@ -69,9 +75,59 @@ public class GameServiceImpl implements GameService {
     }
 
     @Override
-    public ResultData updateGameImage(String gameId, MultipartFile image){
-        //todo:image
-        return null;
+    public ResultData updateGameImage(String gameId, MultipartFile file, HttpServletRequest request) {
+        ResultData result = null;
+        String fileName = file.getOriginalFilename();//获取文件名加后缀
+        if (fileName != null && fileName != "") {
+            String fileSuffix = fileName.indexOf(".")!=-1?fileName.substring(fileName.lastIndexOf(".")+1):"";//文件后缀
+
+            String[] suffixArray = {"jpg", "jpeg", "png", "bmp"};
+            boolean legal = false;
+            for (String suf : suffixArray) {
+                if (suf.equals(fileSuffix.toLowerCase())) {
+                    legal = true;
+                    break;
+                }
+            }
+            if (!legal) {
+                result = ResultData.errorMsg("图片格式非法");
+                return result;
+            }
+            fileName = gameId + "." + fileSuffix;//新的文件名: gameId.type
+
+            String returnUrl = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort()
+                    + request.getContextPath() + "/static/images/";//存储路径
+            String path = request.getSession().getServletContext().getRealPath("/"); //文件存储位置
+            //先判断文件是否存在
+            //获取文件夹路径
+            File folder = new File(path + "static/images/game/");
+            //如果文件夹不存在则创建
+            if (!folder.exists()) {
+                folder.mkdirs();
+                System.out.println("create folder");
+            }
+            //将图片存入文件夹
+            File targetFile = new File(folder, fileName);
+            try {
+                //将上传的文件写到服务器上指定的文件。
+                file.transferTo(targetFile);
+                String url = returnUrl + "game/" + fileName;
+                Game game = new Game();
+                game.setGameId(gameId);
+                game.setImageUrl(url);
+                ResultData response = gameDao.updateImage(game);
+                if (!response.isOK()) {
+                    result = ResultData.errorMsg("Fail to update image of game to database");
+                }
+                if (response.isOK()) {
+                    result = ResultData.ok(response.getData());
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                result = ResultData.errorMsg("Fail to upload file");
+            }
+        }
+        return result;
     }
 
 }
