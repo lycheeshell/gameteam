@@ -1,6 +1,7 @@
 package edu.nju.controller;
 
 import edu.nju.service.GameService;
+import edu.nju.service.ManagerService;
 import edu.nju.service.QuestionService;
 import edu.nju.util.ResultData;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,10 +22,24 @@ import javax.servlet.http.HttpServletRequest;
 public class ManagerController {
 
     @Autowired
+    ManagerService managerService;
+
+    @Autowired
     GameService gameService;
 
     @Autowired
     QuestionService questionService;
+
+    /**
+     * 管理员登录
+     * @param account
+     * @param password
+     * @return
+     */
+    @PostMapping(value = "/login")
+    public ResultData login(String account, String password) {
+        return managerService.login(account, password);
+    }
 
     /**
      * @param name 游戏名

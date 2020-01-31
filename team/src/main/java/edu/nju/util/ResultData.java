@@ -29,6 +29,12 @@ public class ResultData {
      * 响应中的数据
      */
     private Object data;
+
+    /**
+     * 返回的data是否是空
+     */
+    private boolean empty;
+
     /**
      * 不使用,覆盖游览器原返回值ok
      */
@@ -44,6 +50,18 @@ public class ResultData {
 
     public static ResultData ok() {
         return new ResultData(null);
+    }
+
+    public static ResultData empty(Object data) {
+        ResultData result = new ResultData(200, "null data", data);
+        result.setEmpty(true);
+        return result;
+    }
+
+    public static ResultData empty() {
+        ResultData result = new ResultData(200, "null data", null);
+        result.setEmpty(true);
+        return result;
     }
 
     public static ResultData errorMsg(String msg) {
@@ -73,12 +91,14 @@ public class ResultData {
         this.status = status;
         this.msg = msg;
         this.data = data;
+        this.empty = false;
     }
 
     public ResultData(Object data) {
         this.status = 200;
         this.msg = "OK";
         this.data = data;
+        this.empty = false;
     }
 
     public Boolean isOK() {
@@ -107,6 +127,14 @@ public class ResultData {
 
     public void setData(Object data) {
         this.data = data;
+    }
+
+    public boolean isEmpty() {
+        return empty;
+    }
+
+    public void setEmpty(boolean empty) {
+        this.empty = empty;
     }
 
     public String getOk() {
