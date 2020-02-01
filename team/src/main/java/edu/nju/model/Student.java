@@ -14,7 +14,7 @@ public class Student extends Entity {
     private String phone;
     private String email;
     private int sex;
-    private Timestamp birthday;
+    private String birthday;
     private String school;      //学校
     private int startYear;     //入学年份
     private String photoUrl;   //头像图片的url
@@ -75,11 +75,11 @@ public class Student extends Entity {
         this.sex = sex;
     }
 
-    public Timestamp getBirthday() {
+    public String getBirthday() {
         return birthday;
     }
 
-    public void setBirthday(Timestamp birthday) {
+    public void setBirthday(String birthday) {
         this.birthday = birthday;
     }
 

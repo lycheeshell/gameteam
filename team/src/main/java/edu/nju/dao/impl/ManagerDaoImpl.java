@@ -18,7 +18,7 @@ public class ManagerDaoImpl extends BaseDao implements ManagerDao {
 
     @Override
     public ResultData login(Map<String, Object> condition) {
-        ResultData result = null;
+        ResultData result;
         try{
             List<Manager> list = sqlSession.selectList("nju.team.manager.query", condition);
             if (list.isEmpty()) {

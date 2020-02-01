@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="nju.team.student">
+    <resultMap id="infoVo" type="edu.nju.model.Student">
+        <result property="studentId" column="student_id"></result>
+        <result property="account" column="account"></result>
+        <result property="password" column="password"></result>
+        <result property="phone" column="phone"></result>
+        <result property="email" column="email"></result>
+        <result property="sex" column="sex"></result>
+        <result property="birthday" column="birthday"></result>
+        <result property="school" column="school"></result>
+        <result property="startYear" column="startYear"></result>
+        <result property="photoUrl" column="photo_url"></result>
+        <result property="credit" column="credit"></result>
+        <result property="wx_id" column="wx_id"></result>
+        <result property="openid" column="openid"></result>
+        <result property="session_key" column="session_key"></result>
+        <result property="blockFlag" column="block_flag"></result>
+        <result property="createAt" column="create_time"></result>
+    </resultMap>
+
+    <insert id="insert" parameterType="edu.nju.model.Student">
+        insert into gameteam.student(student_id,account,password,phone,email,sex,birthday,school,start_year,photo_url,credit,wx_id,openid,session_key, block_flag, create_time)
+        values (#{studentId}, #{account}, #{password}, #{phone},#{email}, #{sex}, #{birthday}, #{school},#{startYear}, #{photoUrl}, #{credit}, #{wx_id},#{openid}, #{session_key}, #{blockFlag}, #{createAt})
+    </insert>
+
+    <update id="update" parameterType="edu.nju.model.Student">
+        update gameteam.student
+        <set>
+            <if test="name != null">
+                name = #{name},
+            </if>
+            <if test="description != null">
+                description = #{description},
+            </if>
+            game_id = #{gameId}
+        </set>
+        where game_id = #{gameId}
+    </update>
+
+    <update id="updateImage" parameterType="edu.nju.model.Student">
+        update gameteam.student
+        <set>
+            <if test="photoUrl != null">
+                photo_url = #{photoUrl},
+            </if>
+            game_id = #{gameId}
+        </set>
+        where game_id = #{gameId}
+    </update>
+
+    <delete id="delete" parameterType="java.util.Map">
+        UPDATE gameteam.student
+        SET
+        block_flag = 1
+        WHERE
+        student_id = #{studentId}
+    </delete>
+
+    <select id="loginQuery" parameterType="java.util.Map" resultMap="infoVo">
+        select student_id,account,password,phone,email,sex,birthday,school,start_year,photo_url,credit,wx_id,openid,session_key, block_flag, create_time
+        from gameteam.manager
+        where account = #{account} AND password = #{password}
+    </select>
+
+    <select id="query" parameterType="java.util.Map" resultMap="infoVo">
+        select student_id,account,password,phone,email,sex,birthday,school,start_year,photo_url,credit,wx_id,openid,session_key, block_flag, create_time
+        from gameteam.student
+        where block_flag = 0
+        <if test="studentId != null">
+            AND student_id = #{studentId}
+        </if>
+    </select>
+
+</mapper>

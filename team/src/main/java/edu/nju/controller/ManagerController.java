@@ -55,6 +55,7 @@ public class ManagerController {
      * 更新游戏的图片
      * @param gameId
      * @param file
+     * @param request
      * @return
      */
     @PostMapping(value = "/updateGameImage")
@@ -74,6 +75,7 @@ public class ManagerController {
 
     /**
      *
+     * @param gameId
      * @param name
      * @param description
      * @return

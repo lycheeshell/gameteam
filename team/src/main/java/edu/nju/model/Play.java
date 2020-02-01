@@ -10,8 +10,8 @@ public class Play extends Entity {
 
     private String playId;
     private String gameId;
-    private Timestamp startTime;  //线下游戏开始时间
-    private Timestamp endTime;    //线下游戏结束时间
+    private String startTime;  //线下游戏开始时间
+    private String endTime;    //线下游戏结束时间
     private String province;      //省
     private String city;          //市
     private String location;      //具体线下游戏的地址
@@ -40,19 +40,19 @@ public class Play extends Entity {
         this.gameId = gameId;
     }
 
-    public Timestamp getStartTime() {
+    public String getStartTime() {
         return startTime;
     }
 
-    public void setStartTime(Timestamp startTime) {
+    public void setStartTime(String startTime) {
         this.startTime = startTime;
     }
 
-    public Timestamp getEndTime() {
+    public String getEndTime() {
         return endTime;
     }
 
-    public void setEndTime(Timestamp endTime) {
+    public void setEndTime(String endTime) {
         this.endTime = endTime;
     }
 

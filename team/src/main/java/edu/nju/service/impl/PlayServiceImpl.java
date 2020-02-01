@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class PlayServiceImpl implements PlayService {
 
-    private static Logger logger = Logger.getLogger(GameServiceImpl.class);
+    private static Logger logger = Logger.getLogger(PlayServiceImpl.class);
 
     @Autowired
     private PlayDao playDao;

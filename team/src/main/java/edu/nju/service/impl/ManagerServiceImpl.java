@@ -17,7 +17,7 @@ import java.util.Map;
 @Service
 public class ManagerServiceImpl implements ManagerService {
 
-    private static Logger logger = Logger.getLogger(GameServiceImpl.class);
+    private static Logger logger = Logger.getLogger(ManagerServiceImpl.class);
 
     @Autowired
     private ManagerDao managerDao;
