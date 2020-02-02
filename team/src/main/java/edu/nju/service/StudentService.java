@@ -1,5 +1,6 @@
 package edu.nju.service;
 
+import edu.nju.model.Student;
 import edu.nju.util.ResultData;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
@@ -12,10 +13,14 @@ import javax.servlet.http.HttpServletRequest;
  */
 public interface StudentService {
 
+    ResultData wechatLogin(String code);
+
     ResultData login(String account, String password);
 
-    ResultData register(String account, String password, String phone, String email, int sex, String birthday, String school, int startYear);
+    ResultData register(Student student);
 
     ResultData updateStudentImage(String studentId, MultipartFile file, HttpServletRequest request);
+
+    ResultData update(Student student);
 
 }

@@ -1,11 +1,16 @@
 package edu.nju.service.impl;
 
+import com.alibaba.fastjson.JSONObject;
 import edu.nju.dao.StudentDao;
 import edu.nju.model.Student;
 import edu.nju.service.StudentService;
+import edu.nju.util.HttpClientUtil;
 import edu.nju.util.ResultData;
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -19,12 +24,66 @@ import java.util.Map;
  * @Date ：Created in 16:29 2020/1/8
  */
 @Service
+@PropertySource({"classpath:wechat.properties"})
 public class StudentServiceImpl implements StudentService {
 
     private static Logger logger = Logger.getLogger(StudentServiceImpl.class);
 
     @Autowired
     private StudentDao studentDao;
+
+    @Value("${appid}")
+    private String appid;
+    @Value("${secret}")
+    private String secret;
+    @Value("${grant_type}")
+    private String grantType;
+    @Value("${url}")
+    private String url;
+
+    @Override
+    public ResultData wechatLogin(String code) {
+        ResultData result = null;
+
+        Map<String, String> param = new HashMap<>(4);
+        param.put("appid", appid);
+        param.put("secret", secret);
+        param.put("js_code", code);
+        param.put("grant_type", grantType);
+
+        //获取session_id
+        String sr = HttpClientUtil.doGet(url, param);
+        // 判断获取的是否有值
+        if (StringUtils.isBlank(sr)) {
+            result = ResultData.errorMsg("获取微信数据失败");
+            return result;
+        }
+        //解析相应内容（转换成json对象）
+        JSONObject json = JSONObject.parseObject(sr);
+        String openid = json.getString("openid");
+
+        Map<String, Object> map = new HashMap<>();
+        map.put("openid", openid);
+        ResultData queryResponse = studentDao.queryStudentByOpenid(map);
+        if (!queryResponse.isEmpty()) {
+            return queryResponse;
+        }
+        //获取会话密钥（session_key）
+        String sessionKey = json.get("session_key").toString();
+
+        Student student = new Student();
+        student.setOpenid(openid);
+        student.setSession_key(sessionKey);
+
+        ResultData saveResponse = studentDao.insert(student);
+
+        if (!saveResponse.isOK()) {
+            result = ResultData.errorMsg("Fail to insert student to database");
+        } else {
+            result = ResultData.ok(saveResponse.getData());
+        }
+        return result;
+    }
 
     @Override
     public ResultData login(String account, String password) {
@@ -34,7 +93,7 @@ public class StudentServiceImpl implements StudentService {
         map.put("password", password);
         ResultData response = studentDao.login(map);
         if (!response.isOK()) {
-            result = ResultData.errorMsg("query student error");
+            result = ResultData.errorMsg("Query student error");
         } else if (response.isEmpty()) {
             result = ResultData.empty(response.getData());
         } else {
@@ -44,19 +103,7 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    public ResultData register(String account, String password, String phone, String email, int sex, String birthday, String school, int startYear) {
-        Student student = new Student();
-        student.setAccount(account);
-        student.setPassword(password);
-        student.setPhone(phone);
-        student.setEmail(email);
-        student.setSex(sex);
-        student.setBirthday(birthday);
-        student.setSchool(school);
-        student.setStartYear(startYear);
-        student.setCredit(100);
-        //todo: wx_id,openid
-
+    public ResultData register(Student student) {
         ResultData result = null;
         ResultData response = studentDao.insert(student);
         if (!response.isOK()) {
@@ -120,6 +167,19 @@ public class StudentServiceImpl implements StudentService {
                 e.printStackTrace();
                 result = ResultData.errorMsg("Fail to upload file");
             }
+        }
+        return result;
+    }
+
+    @Override
+    public ResultData update(Student student) {
+        ResultData result = null;
+        ResultData response = studentDao.update(student);
+        if (!response.isOK()) {
+            result = ResultData.errorMsg("Fail to update student to database");
+        }
+        if (response.isOK()) {
+            result = ResultData.ok(response.getData());
         }
         return result;
     }

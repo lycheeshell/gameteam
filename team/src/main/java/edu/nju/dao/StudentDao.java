@@ -19,4 +19,6 @@ public interface StudentDao {
 
     ResultData login(Map<String, Object> condition);
 
+    ResultData queryStudentByOpenid(Map<String, Object> condition);
+
 }

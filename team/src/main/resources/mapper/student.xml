@@ -28,15 +28,45 @@
     <update id="update" parameterType="edu.nju.model.Student">
         update gameteam.student
         <set>
-            <if test="name != null">
-                name = #{name},
+            <if test="password != null">
+                password = #{password},
             </if>
-            <if test="description != null">
-                description = #{description},
+            <if test="phone != null">
+                phone = #{phone},
             </if>
-            game_id = #{gameId}
+            <if test="email != null">
+                email = #{email},
+            </if>
+            <if test="sex != null">
+                sex = #{sex},
+            </if>
+            <if test="birthday != null">
+                birthday = #{birthday},
+            </if>
+            <if test="school != null">
+                school = #{school},
+            </if>
+            <if test="startYear != null">
+                start_year = #{startYear},
+            </if>
+            <if test="photoUrl != null">
+                photo_url = #{photoUrl},
+            </if>
+            <if test="credit != null">
+                credit = #{credit},
+            </if>
+            <if test="wx_id != null">
+                wx_id = #{wx_id},
+            </if>
+            <if test="openid != null">
+                openid = #{openid},
+            </if>
+            <if test="session_key != null">
+                session_key = #{session_key},
+            </if>
+            student_id = #{studentId}
         </set>
-        where game_id = #{gameId}
+        where student_id = #{studentId}
     </update>
 
     <update id="updateImage" parameterType="edu.nju.model.Student">
@@ -60,8 +90,14 @@
 
     <select id="loginQuery" parameterType="java.util.Map" resultMap="infoVo">
         select student_id,account,password,phone,email,sex,birthday,school,start_year,photo_url,credit,wx_id,openid,session_key, block_flag, create_time
-        from gameteam.manager
+        from gameteam.student
         where account = #{account} AND password = #{password}
+    </select>
+
+    <select id="openidQuery" parameterType="java.util.Map" resultMap="infoVo">
+        select student_id,account,password,phone,email,sex,birthday,school,start_year,photo_url,credit,wx_id,openid,session_key, block_flag, create_time
+        from gameteam.student
+        where openid = #{openid}
     </select>
 
     <select id="query" parameterType="java.util.Map" resultMap="infoVo">

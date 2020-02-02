@@ -77,4 +77,22 @@ public class StudentDaoImpl extends BaseDao implements StudentDao {
         return result;
     }
 
+    @Override
+    public ResultData queryStudentByOpenid(Map<String, Object> condition) {
+        ResultData result;
+        try{
+            List<Student> list = sqlSession.selectList("nju.team.student.openidQuery", condition);
+            if (list.isEmpty()) {
+                result = ResultData.empty(list);
+            } else {
+                result = ResultData.ok(list);
+            }
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            result = ResultData.errorMsg(e.getMessage());
+        }
+        return result;
+    }
+
 }
