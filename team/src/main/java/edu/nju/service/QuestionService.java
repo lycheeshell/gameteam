@@ -1,5 +1,6 @@
 package edu.nju.service;
 
+import edu.nju.model.Question;
 import edu.nju.util.ResultData;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -9,7 +10,7 @@ import org.springframework.web.multipart.MultipartFile;
  */
 public interface QuestionService {
 
-    ResultData createQuestion(String gameId, String description, String a, String b, String c, String d, String correctOption);
+    ResultData createQuestion(Question question);
 
     ResultData deleteQuestion(String questionId);
 

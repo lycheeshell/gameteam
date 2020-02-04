@@ -7,6 +7,9 @@ import edu.nju.util.IDGenerator;
 import edu.nju.util.ResultData;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+import java.util.Map;
+
 /**
  * @Author ：lycheeshell
  * @Date ：Created in 20:05 2020/1/30
@@ -35,6 +38,24 @@ public class QuestionDaoImpl extends BaseDao implements QuestionDao {
             sqlSession.delete("nju.team.question.delete",questionId);
             result = ResultData.ok();
         } catch ( Exception e) {
+            e.printStackTrace();
+            result = ResultData.errorMsg(e.getMessage());
+        }
+        return result;
+    }
+
+    @Override
+    public ResultData query(Map<String, Object> condition) {
+        ResultData result;
+        try{
+            List<Question> list = sqlSession.selectList("nju.team.question.query", condition);
+            if (list.isEmpty()) {
+                result = ResultData.empty(list);
+            } else {
+                result = ResultData.ok(list);
+            }
+        }
+        catch (Exception e) {
             e.printStackTrace();
             result = ResultData.errorMsg(e.getMessage());
         }

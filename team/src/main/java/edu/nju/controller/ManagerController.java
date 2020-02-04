@@ -1,14 +1,12 @@
 package edu.nju.controller;
 
+import edu.nju.model.Question;
 import edu.nju.service.GameService;
 import edu.nju.service.ManagerService;
 import edu.nju.service.QuestionService;
 import edu.nju.util.ResultData;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
@@ -42,6 +40,7 @@ public class ManagerController {
     }
 
     /**
+     * 创建游戏
      * @param name 游戏名
      * @param description  描述
      * @return
@@ -64,7 +63,7 @@ public class ManagerController {
     }
 
     /**
-     *
+     * 删除游戏
      * @param gameId
      * @return
      */
@@ -74,7 +73,7 @@ public class ManagerController {
     }
 
     /**
-     *
+     * 更新游戏
      * @param gameId
      * @param name
      * @param description
@@ -86,23 +85,18 @@ public class ManagerController {
     }
 
     /**
-     *
-     * @param gameId 对应的game_id
-     * @param description  题目描述
-     * @param a  选项A
-     * @param b  选项B
-     * @param c  选项C
-     * @param d  选项D
-     * @param correctOption 正确选项 (大写ABCD)
+     * 创建问题
+     * 'content-type' : application/json
+     * @param question
      * @return
      */
     @PostMapping(value = "/createQuestion")
-    public ResultData createQuestion(String gameId, String description, String a, String b, String c, String d, String correctOption) {
-        return questionService.createQuestion(gameId, description, a, b, c, d, correctOption);
+    public ResultData createQuestion(@RequestBody Question question) {
+        return questionService.createQuestion(question);
     }
 
     /**
-     *
+     * 删除问题
      * @param questionId
      * @return
      */

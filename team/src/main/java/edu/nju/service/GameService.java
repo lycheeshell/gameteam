@@ -18,4 +18,13 @@ public interface GameService {
 
     ResultData updateGameImage(String gameId, MultipartFile file, HttpServletRequest request);
 
+    ResultData search(String word);
+
+    ResultData getHotGames(int num);
+
+    ResultData getMyGames(String studentId);
+
+    ResultData checkStudentJoined(String studentId, String gameId);
+
+    ResultData getQuiz(String gameId, int num);
 }

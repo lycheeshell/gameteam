@@ -183,4 +183,20 @@ public class StudentServiceImpl implements StudentService {
         }
         return result;
     }
+
+    @Override
+    public ResultData query(String studentId) {
+        ResultData result;
+        Map<String, Object> map = new HashMap<>();
+        map.put("studentId", studentId);
+        ResultData response = studentDao.query(map);
+        if (!response.isOK()) {
+            result = ResultData.errorMsg("Query student error");
+        } else if (response.isEmpty()) {
+            result = ResultData.empty(response.getData());
+        } else {
+            result = ResultData.ok(response.getData());
+        }
+        return result;
+    }
 }

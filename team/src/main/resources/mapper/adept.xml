@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="nju.team.adept">
+    <resultMap id="infoVo" type="edu.nju.model.Adept">
+        <result property="adeptId" column="adept_id"></result>
+        <result property="studentId" column="student_id"></result>
+        <result property="gameId" column="game_id"></result>
+        <result property="score" column="score"></result>
+        <result property="blockFlag" column="block_flag"></result>
+        <result property="createAt" column="create_time"></result>
+    </resultMap>
+
+    <insert id="insert" parameterType="edu.nju.model.Adept">
+        insert into gameteam.adept(adept_id, student_id, game_id, score, block_flag, create_time)
+        values (#{adeptId}, #{studentId}, #{gameId}, #{score}, #{blockFlag}, #{createAt})
+    </insert>
+
+    <update id="update" parameterType="edu.nju.model.Adept">
+        update gameteam.adept
+        <set>
+            <if test="score != null">
+                score = #{score},
+            </if>
+            student_id = #{studentId}
+        </set>
+        where student_id = #{studentId} AND game_id = #{gameId}
+    </update>
+
+    <delete id="delete" parameterType="java.util.Map">
+        UPDATE gameteam.adept
+        SET
+        block_flag = 1
+        WHERE
+        adept_id = #{adeptId}
+    </delete>
+
+    <select id="query" parameterType="java.util.Map" resultMap="infoVo">
+        select adept_id, student_id, game_id, score, block_flag, create_time
+        from gameteam.adept
+        where block_flag = 0
+        <if test="studentId != null">
+            AND student_id = #{studentId}
+        </if>
+        <if test="gameId != null">
+            AND gameId = #{game_id}
+        </if>
+    </select>
+
+</mapper>

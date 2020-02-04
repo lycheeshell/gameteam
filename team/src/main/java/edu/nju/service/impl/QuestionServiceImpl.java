@@ -21,15 +21,7 @@ public class QuestionServiceImpl implements QuestionService {
     private QuestionDao questionDao;
 
     @Override
-    public ResultData createQuestion(String gameId, String description, String a, String b, String c, String d, String correctOption) {
-        Question question = new Question();
-        question.setGameId(gameId);
-        question.setDescription(description);
-        question.setA(a);
-        question.setB(b);
-        question.setC(c);
-        question.setD(d);
-        question.setCorrectOption(correctOption);
+    public ResultData createQuestion(Question question) {
         ResultData result = null;
         ResultData response = questionDao.insert(question);
         if (!response.isOK()) {

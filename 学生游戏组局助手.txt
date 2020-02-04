@@ -4,7 +4,7 @@
 1.用户注册：账号（字母数字下划线），密码，手机号，邮箱，性别，年龄，学校，入学年份，头像可选
 2.用户登录：wx.login绑定账号
 3.用户信息查看和修改
-4.游戏选择：主界面包括（搜索框搜索游戏、可供选择的游戏、我参与的游戏）
+4.游戏选择：主界面包括（搜索框搜索游戏、热门前五游戏、我参与过的游戏）
 选择一个游戏进入后，界面有下列三个选项（游戏熟练度测试、创建线下游戏、查找线下游戏）
 5.游戏熟练度测试：从题库中选择十题，根据得分确认用户的熟练等级。（准确率-等级：0-40萌新，41-80熟练，80-100高玩），如果没有参与过测试，默认是0分
 6.创建线下游戏：时间范围（开始时间，结束时间）、地点（省，市，区县）、详细地址、人数下限、人数上限、最低熟练度
@@ -27,7 +27,7 @@
 表的设计：所有表都有两个列：block_flag记录删除状态, create_time记录插入的时间
 
 管理员表manager(manager_id,account,password,phone,email)
-学生表student(student_id,account,password,phone,email,sex,birthday,school,start_year,photo_url,credit,wx_id,openid,session_key)
+学生表student(student_id,account,password,phone,email,sex,birthday,school,start_year,photo_url,credit,openid,session_key)
 游戏表game(game_id,name,description,image_url)
 熟练表adept(adept_id,student_id,game_id,score)
 组局表play(play_id,game_id,start_time,end_time,province,city,location,min_person,max_person,min_adept_score,status)

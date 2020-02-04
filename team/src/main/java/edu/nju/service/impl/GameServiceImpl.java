@@ -1,7 +1,11 @@
 package edu.nju.service.impl;
 
+import edu.nju.dao.AdeptDao;
 import edu.nju.dao.GameDao;
+import edu.nju.dao.QuestionDao;
+import edu.nju.model.Adept;
 import edu.nju.model.Game;
+import edu.nju.model.Question;
 import edu.nju.service.GameService;
 import edu.nju.util.ResultData;
 import org.apache.log4j.Logger;
@@ -11,6 +15,10 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @Author ：lycheeshell
@@ -23,6 +31,12 @@ public class GameServiceImpl implements GameService {
 
     @Autowired
     private GameDao gameDao;
+
+    @Autowired
+    private AdeptDao adeptDao;
+
+    @Autowired
+    private QuestionDao questionDao;
 
     @Override
     public ResultData createGame(String name, String description) {
@@ -122,6 +136,99 @@ public class GameServiceImpl implements GameService {
             } catch (Exception e) {
                 e.printStackTrace();
                 result = ResultData.errorMsg("Fail to upload file");
+            }
+        }
+        return result;
+    }
+
+    @Override
+    public ResultData search(String word) {
+        ResultData result;
+        Map<String, Object> map = new HashMap<>();
+        map.put("word", "%" + word + "%");
+        ResultData response = gameDao.search(map);
+        if (!response.isOK()) {
+            result = ResultData.errorMsg("query game error");
+        } else if (response.isEmpty()) {
+            result = ResultData.empty(response.getData());
+        } else {
+            result = ResultData.ok(response.getData());
+        }
+        return result;
+    }
+
+    @Override
+    public ResultData getHotGames(int num) {
+        ResultData result;
+        Map<String, Object> map = new HashMap<>();
+        map.put("num", num);
+        ResultData response = gameDao.hot(map);
+        if (!response.isOK()) {
+            result = ResultData.errorMsg("query game error");
+        } else if (response.isEmpty()) {
+            result = ResultData.empty(response.getData());
+        } else {
+            result = ResultData.ok(response.getData());
+        }
+        return result;
+    }
+
+    @Override
+    public ResultData getMyGames(String studentId) {
+        ResultData result;
+        Map<String, Object> map = new HashMap<>();
+        map.put("studentId", studentId);
+        ResultData response = gameDao.queryByStudentId(map);
+        if (!response.isOK()) {
+            result = ResultData.errorMsg("query game error");
+        } else if (response.isEmpty()) {
+            result = ResultData.empty(response.getData());
+        } else {
+            result = ResultData.ok(response.getData());
+        }
+        return result;
+    }
+
+    @Override
+    public ResultData checkStudentJoined(String studentId, String gameId) {
+        ResultData result;
+        Map<String, Object> map = new HashMap<>();
+        map.put("studentId", studentId);
+        map.put("gameId", gameId);
+        ResultData response = adeptDao.query(map);
+        if (!response.isOK()) {
+            result = ResultData.errorMsg("query game error");
+        } else if (response.isEmpty()) {
+            Adept adept = new Adept();
+            adept.setStudentId(studentId);
+            adept.setGameId(gameId);
+            adept.setScore(0);
+            ResultData insertResponse = adeptDao.insert(adept);
+            result = ResultData.empty(insertResponse.getData()); //empty表示是刚创建的熟练度
+        } else {
+            result = ResultData.ok(response.getData());
+        }
+        return result;
+    }
+
+    @Override
+    public ResultData getQuiz(String gameId, int num) {
+        ResultData result;
+        Map<String, Object> map = new HashMap<>();
+        map.put("gameId", gameId);
+        ResultData response = questionDao.query(map);
+        if (!response.isOK()) {
+            result = ResultData.errorMsg("query game error");
+        } else if (response.isEmpty()) {
+            result = ResultData.empty(response.getData());
+        } else {
+            List<Question> list = (List<Question>)response.getData();
+            if (list.size() <= num) {
+                result = ResultData.ok(response.getData());
+            } else {
+                Collections.shuffle(list);
+                list = list.subList(0, num);
+                result = ResultData.ok(list);
             }
         }
         return result;

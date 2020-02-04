@@ -75,6 +75,16 @@ public class StudentController {
     }
 
     /**
+     * 查看学生信息
+     * @param studentId
+     * @return
+     */
+    @GetMapping(value = "/query")
+    public ResultData query(String studentId) {
+        return studentService.query(studentId);
+    }
+
+    /**
      * 更新学生信息
      * 'content-type' : application/json
      * @param student

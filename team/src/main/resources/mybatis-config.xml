@@ -6,7 +6,7 @@
     <mappers>
         <mapper resource="mapper/student.xml" />
         <mapper resource="mapper/game.xml" />
-<!--        <mapper resource="mapper/adept.xml" />-->
+        <mapper resource="mapper/adept.xml" />
 <!--        <mapper resource="mapper/play.xml" />-->
 <!--        <mapper resource="mapper/participant.xml" />-->
 <!--        <mapper resource="mapper/show.xml" />-->

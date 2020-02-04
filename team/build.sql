@@ -189,7 +189,6 @@ CREATE TABLE `student` (
   `start_year` int(4) DEFAULT NULL,
   `photo_url` varchar(50) DEFAULT NULL,
   `credit` int(3) DEFAULT NULL,
-  `wx_id` varchar(40) DEFAULT NULL,
   `openid` varchar(40) DEFAULT NULL,
   `session_key` varchar(40) DEFAULT NULL,
   `block_flag` tinyint(1) DEFAULT NULL,
@@ -207,4 +206,4 @@ CREATE TABLE `student` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-01-30  2:18:20
+-- Dump completed on 2020-02-04 17:49:40

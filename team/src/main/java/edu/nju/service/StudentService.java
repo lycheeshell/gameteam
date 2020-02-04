@@ -23,4 +23,6 @@ public interface StudentService {
 
     ResultData update(Student student);
 
+    ResultData query(String studentId);
+
 }

@@ -7,6 +7,9 @@ import edu.nju.util.IDGenerator;
 import edu.nju.util.ResultData;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+import java.util.Map;
+
 /**
  * @Author ：lycheeshell
  * @Date ：Created in 16:21 2020/1/8
@@ -68,4 +71,59 @@ public class GameDaoImpl extends BaseDao implements GameDao {
         }
         return result;
     }
+
+    @Override
+    public ResultData search(Map<String, Object> condition) {
+        ResultData result;
+        try{
+            List<Game> list = sqlSession.selectList("nju.team.game.search", condition);
+            if (list.isEmpty()) {
+                result = ResultData.empty(list);
+            } else {
+                result = ResultData.ok(list);
+            }
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            result = ResultData.errorMsg(e.getMessage());
+        }
+        return result;
+    }
+
+    @Override
+    public ResultData hot(Map<String, Object> condition) {
+        ResultData result;
+        try{
+            List<Game> list = sqlSession.selectList("nju.team.game.hot", condition);
+            if (list.isEmpty()) {
+                result = ResultData.empty(list);
+            } else {
+                result = ResultData.ok(list);
+            }
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            result = ResultData.errorMsg(e.getMessage());
+        }
+        return result;
+    }
+
+    @Override
+    public ResultData queryByStudentId(Map<String, Object> condition) {
+        ResultData result;
+        try{
+            List<Game> list = sqlSession.selectList("nju.team.game.studentGame", condition);
+            if (list.isEmpty()) {
+                result = ResultData.empty(list);
+            } else {
+                result = ResultData.ok(list);
+            }
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            result = ResultData.errorMsg(e.getMessage());
+        }
+        return result;
+    }
+
 }
