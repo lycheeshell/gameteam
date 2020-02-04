@@ -1,5 +1,6 @@
 package edu.nju.service;
 
+import edu.nju.model.Adept;
 import edu.nju.util.ResultData;
 import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpServletRequest;
@@ -24,7 +25,9 @@ public interface GameService {
 
     ResultData getMyGames(String studentId);
 
-    ResultData checkStudentJoined(String studentId, String gameId);
+    ResultData getAdept(String studentId, String gameId);
 
     ResultData getQuiz(String gameId, int num);
+
+    ResultData updateAdept(String studentId, String gameId, int score);
 }

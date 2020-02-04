@@ -1,13 +1,11 @@
 package edu.nju.controller;
 
+import edu.nju.model.Adept;
 import edu.nju.service.GameService;
 import edu.nju.service.QuestionService;
 import edu.nju.util.ResultData;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * @Author ：lycheeshell
@@ -60,9 +58,9 @@ public class GameController {
      * @param gameId
      * @return
      */
-    @GetMapping(value = "/checkJoined")
-    public ResultData checkJoined(String studentId, String gameId) {
-        return gameService.checkStudentJoined(studentId, gameId);
+    @GetMapping(value = "/getAdept")
+    public ResultData getAdept(String studentId, String gameId) {
+        return gameService.getAdept(studentId, gameId);
     }
 
     /**
@@ -76,6 +74,16 @@ public class GameController {
         return gameService.getQuiz(gameId, num);
     }
 
-
+    /**
+     * 更新用户在某个游戏的熟练分
+     * @param studentId
+     * @param gameId
+     * @param score
+     * @return
+     */
+    @PostMapping(value = "/updateAdept")
+    public ResultData updateAdept(String studentId, String gameId, int score) {
+        return gameService.updateAdept(studentId, gameId, score);
+    }
 
 }

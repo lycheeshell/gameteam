@@ -190,7 +190,7 @@ public class GameServiceImpl implements GameService {
     }
 
     @Override
-    public ResultData checkStudentJoined(String studentId, String gameId) {
+    public ResultData getAdept(String studentId, String gameId) {
         ResultData result;
         Map<String, Object> map = new HashMap<>();
         map.put("studentId", studentId);
@@ -204,7 +204,7 @@ public class GameServiceImpl implements GameService {
             adept.setGameId(gameId);
             adept.setScore(0);
             ResultData insertResponse = adeptDao.insert(adept);
-            result = ResultData.empty(insertResponse.getData()); //empty表示是刚创建的熟练度
+            result = ResultData.ok(insertResponse.getData());
         } else {
             result = ResultData.ok(response.getData());
         }
@@ -230,6 +230,23 @@ public class GameServiceImpl implements GameService {
                 list = list.subList(0, num);
                 result = ResultData.ok(list);
             }
+        }
+        return result;
+    }
+
+    @Override
+    public ResultData updateAdept(String studentId, String gameId, int score) {
+        Adept adept = new Adept();
+        adept.setStudentId(studentId);
+        adept.setGameId(gameId);
+        adept.setScore(score);
+        ResultData result = null;
+        ResultData response = adeptDao.update(adept);
+        if (!response.isOK()) {
+            result = ResultData.errorMsg("Fail to update adept to database");
+        }
+        if (response.isOK()) {
+            result = ResultData.ok(response.getData());
         }
         return result;
     }
