@@ -58,7 +58,9 @@ public class GameServiceImpl implements GameService {
     @Override
     public ResultData deleteGame(String gameId) {
         ResultData result = null;
-        ResultData response = gameDao.delete(gameId);
+        Map<String, Object> map = new HashMap<>();
+        map.put("gameId", gameId);
+        ResultData response = gameDao.delete(map);
         if (!response.isOK()) {
             result = ResultData.errorMsg("Fail to delete game from database");
         }
@@ -246,6 +248,22 @@ public class GameServiceImpl implements GameService {
             result = ResultData.errorMsg("Fail to update adept to database");
         }
         if (response.isOK()) {
+            result = ResultData.ok(response.getData());
+        }
+        return result;
+    }
+
+    @Override
+    public ResultData getGame(String gameId) {
+        ResultData result;
+        Map<String, Object> map = new HashMap<>();
+        map.put("gameId", gameId);
+        ResultData response = gameDao.query(map);
+        if (!response.isOK()) {
+            result = ResultData.errorMsg("query game error");
+        } else if (response.isEmpty()) {
+            result = ResultData.empty(response.getData());
+        } else {
             result = ResultData.ok(response.getData());
         }
         return result;

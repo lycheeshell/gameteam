@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="nju.team.play">
+    <resultMap id="infoVo" type="edu.nju.model.Play">
+        <result property="playId" column="play_id"></result>
+        <result property="gameId" column="game_id"></result>
+        <result property="startTime" column="start_time"></result>
+        <result property="endTime" column="end_time"></result>
+        <result property="province" column="province"></result>
+        <result property="city" column="city"></result>
+        <result property="location" column="location"></result>
+        <result property="minPerson" column="min_person"></result>
+        <result property="maxPerson" column="max_person"></result>
+        <result property="minAdeptScore" column="min_adept_score"></result>
+        <result property="status" column="status"></result>
+        <result property="blockFlag" column="block_flag"></result>
+        <result property="createAt" column="create_time"></result>
+    </resultMap>
+
+    <insert id="insert" parameterType="edu.nju.model.Play">
+        insert into gameteam.play(play_id,game_id,start_time,end_time,province,city,location,min_person,max_person,min_adept_score,status, block_flag, create_time)
+        values (#{playId}, #{gameId}, #{startTime}, #{endTime},#{province}, #{city}, #{location}, #{minPerson},#{maxPerson}, #{minAdeptScore}, #{status}, #{blockFlag}, #{createAt})
+    </insert>
+
+    <update id="update" parameterType="edu.nju.model.Play">
+        update gameteam.play
+        <set>
+            <if test="gameId != null">
+                game_id = #{gameId},
+            </if>
+            <if test="startTime != null">
+                start_time = #{startTime},
+            </if>
+            <if test="endTime != null">
+                end_time = #{endTime},
+            </if>
+            <if test="province != null">
+                province = #{province},
+            </if>
+            <if test="city != null">
+                city = #{city},
+            </if>
+            <if test="location != null">
+                location = #{location},
+            </if>
+            <if test="minPerson != null">
+                min_person = #{minPerson},
+            </if>
+            <if test="maxPerson != null">
+                max_person = #{maxPerson},
+            </if>
+            <if test="minAdeptScore != null">
+                min_adept_score = #{minAdeptScore},
+            </if>
+            <if test="status != null">
+                status = #{status},
+            </if>
+            play_id = #{playId}
+        </set>
+        where play_id = #{playId}
+    </update>
+
+    <delete id="delete" parameterType="java.util.Map">
+        UPDATE gameteam.play
+        SET
+        block_flag = 1
+        WHERE
+        play_id = #{playId}
+    </delete>
+
+    <select id="query" parameterType="java.util.Map" resultMap="infoVo">
+        select play_id,game_id,start_time,end_time,province,city,location,min_person,max_person,min_adept_score,status, block_flag, create_time
+        from gameteam.play
+        where block_flag = 0
+        <if test="playId != null">
+            AND play_id = #{playId}
+        </if>
+    </select>
+
+    <select id="search" parameterType="java.util.Map" resultMap="infoVo">
+        select play_id,game_id,start_time,end_time,province,city,location,min_person,max_person,min_adept_score,status, block_flag, create_time
+        from gameteam.play
+        where block_flag = 0
+        <if test="gameId != null">
+            AND game_id = #{gameId}
+        </if>
+    </select>
+
+</mapper>

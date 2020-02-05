@@ -19,7 +19,6 @@ public class Student extends Entity {
     private int startYear;     //入学年份
     private String photoUrl;   //头像图片的url
     private int credit;         //信用分
-    private String wx_id;
     private String openid;
     private String session_key;
 
@@ -113,14 +112,6 @@ public class Student extends Entity {
 
     public void setCredit(int credit) {
         this.credit = credit;
-    }
-
-    public String getWx_id() {
-        return wx_id;
-    }
-
-    public void setWx_id(String wx_id) {
-        this.wx_id = wx_id;
     }
 
     public String getOpenid() {

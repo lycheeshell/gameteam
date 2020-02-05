@@ -8,6 +8,9 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * @Author ：lycheeshell
  * @Date ：Created in 16:19 2020/1/8
@@ -36,7 +39,9 @@ public class QuestionServiceImpl implements QuestionService {
     @Override
     public ResultData deleteQuestion(String questionId) {
         ResultData result = null;
-        ResultData response = questionDao.delete(questionId);
+        Map<String, Object> map = new HashMap<>();
+        map.put("questionId", questionId);
+        ResultData response = questionDao.delete(map);
         if (!response.isOK()) {
             result = ResultData.errorMsg("Fail to delete question from database");
         }

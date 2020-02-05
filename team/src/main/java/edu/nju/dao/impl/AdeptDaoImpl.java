@@ -38,7 +38,7 @@ public class AdeptDaoImpl extends BaseDao implements AdeptDao {
     @Override
     public ResultData insert(Adept adept) {
         ResultData result;
-        adept.setGameId(IDGenerator.generate("ADPT"));
+        adept.setAdeptId(IDGenerator.generate("ADPT"));
         try {
             sqlSession.insert("nju.team.adept.insert", adept);
             result = ResultData.ok(adept);

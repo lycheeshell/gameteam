@@ -13,7 +13,6 @@
         <result property="startYear" column="startYear"></result>
         <result property="photoUrl" column="photo_url"></result>
         <result property="credit" column="credit"></result>
-        <result property="wx_id" column="wx_id"></result>
         <result property="openid" column="openid"></result>
         <result property="session_key" column="session_key"></result>
         <result property="blockFlag" column="block_flag"></result>
@@ -21,8 +20,8 @@
     </resultMap>
 
     <insert id="insert" parameterType="edu.nju.model.Student">
-        insert into gameteam.student(student_id,account,password,phone,email,sex,birthday,school,start_year,photo_url,credit,wx_id,openid,session_key, block_flag, create_time)
-        values (#{studentId}, #{account}, #{password}, #{phone},#{email}, #{sex}, #{birthday}, #{school},#{startYear}, #{photoUrl}, #{credit}, #{wx_id},#{openid}, #{session_key}, #{blockFlag}, #{createAt})
+        insert into gameteam.student(student_id,account,password,phone,email,sex,birthday,school,start_year,photo_url,credit,openid,session_key, block_flag, create_time)
+        values (#{studentId}, #{account}, #{password}, #{phone},#{email}, #{sex}, #{birthday}, #{school},#{startYear}, #{photoUrl}, #{credit}, #{openid}, #{session_key}, #{blockFlag}, #{createAt})
     </insert>
 
     <update id="update" parameterType="edu.nju.model.Student">
@@ -55,9 +54,6 @@
             <if test="credit != null">
                 credit = #{credit},
             </if>
-            <if test="wx_id != null">
-                wx_id = #{wx_id},
-            </if>
             <if test="openid != null">
                 openid = #{openid},
             </if>
@@ -89,19 +85,19 @@
     </delete>
 
     <select id="loginQuery" parameterType="java.util.Map" resultMap="infoVo">
-        select student_id,account,password,phone,email,sex,birthday,school,start_year,photo_url,credit,wx_id,openid,session_key, block_flag, create_time
+        select student_id,account,password,phone,email,sex,birthday,school,start_year,photo_url,credit,openid,session_key, block_flag, create_time
         from gameteam.student
         where account = #{account} AND password = #{password}
     </select>
 
     <select id="openidQuery" parameterType="java.util.Map" resultMap="infoVo">
-        select student_id,account,password,phone,email,sex,birthday,school,start_year,photo_url,credit,wx_id,openid,session_key, block_flag, create_time
+        select student_id,account,password,phone,email,sex,birthday,school,start_year,photo_url,credit,openid,session_key, block_flag, create_time
         from gameteam.student
         where openid = #{openid}
     </select>
 
     <select id="query" parameterType="java.util.Map" resultMap="infoVo">
-        select student_id,account,password,phone,email,sex,birthday,school,start_year,photo_url,credit,wx_id,openid,session_key, block_flag, create_time
+        select student_id,account,password,phone,email,sex,birthday,school,start_year,photo_url,credit,openid,session_key, block_flag, create_time
         from gameteam.student
         where block_flag = 0
         <if test="studentId != null">

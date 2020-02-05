@@ -30,4 +30,7 @@ public interface GameService {
     ResultData getQuiz(String gameId, int num);
 
     ResultData updateAdept(String studentId, String gameId, int score);
+
+    ResultData getGame(String gameId);
+
 }

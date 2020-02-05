@@ -17,12 +17,14 @@ public interface GameDao {
 
     ResultData updateImage(Game game);
 
-    ResultData delete(String gameId);
+    ResultData delete(Map<String, Object> condition);
 
     ResultData search(Map<String, Object> condition);
 
     ResultData hot(Map<String, Object> condition);
 
     ResultData queryByStudentId(Map<String, Object> condition);
+
+    ResultData query(Map<String, Object> condition);
 
 }

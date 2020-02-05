@@ -32,10 +32,10 @@ public class QuestionDaoImpl extends BaseDao implements QuestionDao {
     }
 
     @Override
-    public ResultData delete(String questionId) {
+    public ResultData delete(Map<String, Object> condition) {
         ResultData result;
         try {
-            sqlSession.delete("nju.team.question.delete",questionId);
+            sqlSession.delete("nju.team.question.delete",condition);
             result = ResultData.ok();
         } catch ( Exception e) {
             e.printStackTrace();

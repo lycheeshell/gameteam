@@ -22,6 +22,16 @@ public class GameController {
     QuestionService questionService;
 
     /**
+     * 根据id获取游戏
+     * @param gameId
+     * @return
+     */
+    @GetMapping(value = "/getGame")
+    public ResultData getGame(String gameId) {
+        return gameService.getGame(gameId);
+    }
+
+    /**
      * 搜索游戏
      * @param word 搜索框内容
      * @return

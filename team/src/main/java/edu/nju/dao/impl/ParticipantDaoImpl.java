@@ -1,8 +1,8 @@
 package edu.nju.dao.impl;
 
 import edu.nju.dao.BaseDao;
-import edu.nju.dao.PlayDao;
-import edu.nju.model.Play;
+import edu.nju.dao.ParticipantDao;
+import edu.nju.model.Participant;
 import edu.nju.util.IDGenerator;
 import edu.nju.util.ResultData;
 import org.springframework.stereotype.Repository;
@@ -12,19 +12,18 @@ import java.util.Map;
 
 /**
  * @Author ：lycheeshell
- * @Date ：Created in 16:24 2020/1/8
+ * @Date ：Created in 20:05 2020/1/30
  */
 @Repository
-public class PlayDaoImpl extends BaseDao implements PlayDao {
+public class ParticipantDaoImpl extends BaseDao implements ParticipantDao {
 
     @Override
-    public ResultData insert(Play play) {
+    public ResultData insert(Participant participant) {
         ResultData result;
-        play.setPlayId(IDGenerator.generate("PLAY"));
-        play.setStatus(0);
+        participant.setParticipantId(IDGenerator.generate("PART"));
         try {
-            sqlSession.insert("nju.team.play.insert", play);
-            result = ResultData.ok(play);
+            sqlSession.insert("nju.team.participant.insert", participant);
+            result = ResultData.ok(participant);
         } catch (Exception e) {
             e.printStackTrace();
             result = ResultData.errorMsg(e.getMessage());
@@ -33,17 +32,12 @@ public class PlayDaoImpl extends BaseDao implements PlayDao {
     }
 
     @Override
-    public ResultData search(Map<String, Object> condition) {
+    public ResultData delete(Map<String, Object> condition) {
         ResultData result;
-        try{
-            List<Play> list = sqlSession.selectList("nju.team.play.search", condition);
-            if (list.isEmpty()) {
-                result = ResultData.empty(list);
-            } else {
-                result = ResultData.ok(list);
-            }
-        }
-        catch (Exception e) {
+        try {
+            sqlSession.delete("nju.team.participant.delete",condition);
+            result = ResultData.ok();
+        } catch ( Exception e) {
             e.printStackTrace();
             result = ResultData.errorMsg(e.getMessage());
         }
@@ -54,7 +48,7 @@ public class PlayDaoImpl extends BaseDao implements PlayDao {
     public ResultData query(Map<String, Object> condition) {
         ResultData result;
         try{
-            List<Play> list = sqlSession.selectList("nju.team.play.query", condition);
+            List<Participant> list = sqlSession.selectList("nju.team.participant.query", condition);
             if (list.isEmpty()) {
                 result = ResultData.empty(list);
             } else {

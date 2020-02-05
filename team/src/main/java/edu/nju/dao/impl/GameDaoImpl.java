@@ -60,10 +60,10 @@ public class GameDaoImpl extends BaseDao implements GameDao {
     }
 
     @Override
-    public ResultData delete(String gameId) {
+    public ResultData delete(Map<String, Object> condition) {
         ResultData result;
         try {
-            sqlSession.delete("nju.team.game.delete",gameId);
+            sqlSession.delete("nju.team.game.delete",condition);
             result = ResultData.ok();
         } catch ( Exception e) {
             e.printStackTrace();
@@ -113,6 +113,24 @@ public class GameDaoImpl extends BaseDao implements GameDao {
         ResultData result;
         try{
             List<Game> list = sqlSession.selectList("nju.team.game.studentGame", condition);
+            if (list.isEmpty()) {
+                result = ResultData.empty(list);
+            } else {
+                result = ResultData.ok(list);
+            }
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            result = ResultData.errorMsg(e.getMessage());
+        }
+        return result;
+    }
+
+    @Override
+    public ResultData query(Map<String, Object> condition) {
+        ResultData result;
+        try{
+            List<Game> list = sqlSession.selectList("nju.team.game.query", condition);
             if (list.isEmpty()) {
                 result = ResultData.empty(list);
             } else {
