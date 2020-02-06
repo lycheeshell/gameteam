@@ -3,6 +3,7 @@ package edu.nju.dao.impl;
 import edu.nju.dao.BaseDao;
 import edu.nju.dao.PlayDao;
 import edu.nju.model.Play;
+import edu.nju.model.Student;
 import edu.nju.util.IDGenerator;
 import edu.nju.util.ResultData;
 import org.springframework.stereotype.Repository;
@@ -86,7 +87,25 @@ public class PlayDaoImpl extends BaseDao implements PlayDao {
     public ResultData getPlaysByStudentId(Map<String, Object> condition) {
         ResultData result;
         try{
-            List<Play> list = sqlSession.selectList("nju.team.play.queryStudentPlay", condition);
+            List<Play> list = sqlSession.selectList("nju.team.play.queryStudentPlays", condition);
+            if (list.isEmpty()) {
+                result = ResultData.empty(list);
+            } else {
+                result = ResultData.ok(list);
+            }
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            result = ResultData.errorMsg(e.getMessage());
+        }
+        return result;
+    }
+
+    @Override
+    public ResultData getPlayMembers(Map<String, Object> condition) {
+        ResultData result;
+        try{
+            List<Student> list = sqlSession.selectList("nju.team.play.getPlayMembers", condition);
             if (list.isEmpty()) {
                 result = ResultData.empty(list);
             } else {

@@ -19,4 +19,6 @@ public interface PlayService {
 
     ResultData leaveParticipant(String playId, String studentId);
 
+    ResultData getPlayMembers(String playId);
+
 }

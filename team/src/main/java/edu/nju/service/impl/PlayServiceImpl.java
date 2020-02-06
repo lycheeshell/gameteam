@@ -84,6 +84,7 @@ public class PlayServiceImpl implements PlayService {
         //检查是否超过组局的最大人数
         Map<String, Object> map = new HashMap<>();
         map.put("playId", playId);
+        map.put("studentId", studentId);
         ResultData participantResponse = participantDao.query(map);
         List<Participant> participantList = (List<Participant>)participantResponse.getData();
         ResultData playResponse = playDao.query(map);
@@ -137,17 +138,57 @@ public class PlayServiceImpl implements PlayService {
     }
 
     @Override
+    @Transactional
     public ResultData leaveParticipant(String playId, String studentId) {
         ResultData result;
         Map<String, Object> map = new HashMap<>();
         map.put("playId", playId);
         map.put("studentId", studentId);
-        ResultData response = participantDao.delete(map);
-        if (!response.isOK()) {
+
+        //检查组局是否处于状态0或1
+        ResultData queryResponse = playDao.query(map);
+        Play play = ((List<Play>)queryResponse.getData()).get(0);
+        if (play.getStatus() > 1) {
+            result = ResultData.errorMsg("play is ended, delete fail");
+            return result;
+        }
+
+        //如果组局人数刚好等于最小人数，将组局状态设置为0
+        if (play.getStatus() == 1) {
+            ResultData participantResponse = participantDao.query(map);
+            List<Participant> participantList = (List<Participant>)participantResponse.getData();
+            if (participantList.size() == play.getMinPerson()) {
+                play.setStatus(0);
+                ResultData updateResponse = playDao.update(play);
+                if (!updateResponse.isOK()) {
+                    result = ResultData.errorMsg("Fail to update play to database");
+                    return result;
+                }
+            }
+        }
+
+        ResultData deleteResponse = participantDao.delete(map);
+        if (!deleteResponse.isOK()) {
             result = ResultData.errorMsg("Fail to delete participant from database");
             return result;
         }
-        result = ResultData.ok(response.getData());
+        result = ResultData.ok(deleteResponse.getData());
+        return result;
+    }
+
+    @Override
+    public ResultData getPlayMembers(String playId) {
+        ResultData result;
+        Map<String, Object> map = new HashMap<>();
+        map.put("playId", playId);
+        ResultData response = playDao.getPlayMembers(map);
+        if (!response.isOK()) {
+            result = ResultData.errorMsg("query play error");
+        } else if (response.isEmpty()) {
+            result = ResultData.empty(response.getData());
+        } else {
+            result = ResultData.ok(response.getData());
+        }
         return result;
     }
 }

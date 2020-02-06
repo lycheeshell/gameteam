@@ -86,5 +86,17 @@ public class PlayController {
         return playService.leaveParticipant(playId, studentId);
     }
 
+    /**
+     * 获取组局的所有参与者
+     * @param playId
+     * @return
+     */
+    @GetMapping(value = "/member")
+    public ResultData member(String playId) {
+        if (StringUtils.isBlank(playId)) {
+            return ResultData.errorMsg("playId is null");
+        }
+        return playService.getPlayMembers(playId);
+    }
 
 }
