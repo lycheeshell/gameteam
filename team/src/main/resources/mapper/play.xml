@@ -84,6 +84,22 @@
         <if test="gameId != null">
             AND game_id = #{gameId}
         </if>
+        <if test="startTime != null">
+            AND start_time &gt;= #{startTime}
+        </if>
+        <if test="endTime != null">
+            AND end_time &lt;= #{endTime}
+        </if>
+        <if test="province != null">
+            AND province = #{province}
+        </if>
+        <if test="city != null">
+            AND city = #{city}
+        </if>
+        <if test="minAdeptScore != null">
+            AND min_adept_score &gt;= #{minAdeptScore}
+        </if>
+        AND (status = 0 OR status = 1)
     </select>
 
 </mapper>

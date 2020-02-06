@@ -67,4 +67,18 @@ public class PlayDaoImpl extends BaseDao implements PlayDao {
         }
         return result;
     }
+
+    @Override
+    public ResultData update(Play play) {
+        ResultData result;
+        try {
+            sqlSession.update("nju.team.play.update", play);
+            result = ResultData.ok(play);
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            result = ResultData.errorMsg(e.getMessage());
+        }
+        return result;
+    }
 }

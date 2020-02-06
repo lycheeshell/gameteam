@@ -9,6 +9,7 @@ import edu.nju.util.ResultData;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashMap;
 import java.util.List;
@@ -76,6 +77,7 @@ public class PlayServiceImpl implements PlayService {
     }
 
     @Override
+    @Transactional
     public ResultData addParticipant(String playId, String studentId) {
         ResultData result;
 
@@ -103,7 +105,17 @@ public class PlayServiceImpl implements PlayService {
         }
         result = ResultData.ok(insertResponse.getData());
 
-        //如果组局参与者人数达到最小，向所有参与者发送通知 todo
+        //如果组局参与者人数达到最小，更新游戏的状态为1
+        if (playList.get(0).getMinPerson() <= 1 + participantList.size()) {
+            Play play = new Play();
+            play.setPlayId(playId);
+            play.setStatus(1);
+            ResultData updateResponse = playDao.update(play);
+            if (!updateResponse.isOK()) {
+                result = ResultData.errorMsg("Fail to update play to database");
+                return result;
+            }
+        }
 
         return result;
     }

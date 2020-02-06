@@ -17,4 +17,6 @@ public interface PlayDao {
 
     ResultData query(Map<String, Object> condition);
 
+    ResultData update(Play play);
+
 }
