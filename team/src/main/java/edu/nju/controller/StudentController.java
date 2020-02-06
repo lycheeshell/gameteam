@@ -35,7 +35,7 @@ public class StudentController {
     @PostMapping(value = "/wxlogin")
     public ResultData wechatLogin(String code) throws Exception {
         if (StringUtils.isBlank(code)) {
-            throw new Exception("参数不能为空");
+            return ResultData.errorMsg("code is null");
         }
         return studentService.wechatLogin(code);
     }
@@ -48,6 +48,12 @@ public class StudentController {
      */
     @PostMapping(value = "/login")
     public ResultData login(String account, String password) {
+        if (StringUtils.isBlank(account)) {
+            return ResultData.errorMsg("account is null");
+        }
+        if (StringUtils.isBlank(password)) {
+            return ResultData.errorMsg("password is null");
+        }
         return studentService.login(account, password);
     }
 
@@ -71,6 +77,9 @@ public class StudentController {
      */
     @PostMapping(value = "/updateStudentPhoto")
     public ResultData updateStudentImage(String studentId, @RequestParam("file") MultipartFile file, HttpServletRequest request) {
+        if (StringUtils.isBlank(studentId)) {
+            return ResultData.errorMsg("studentId is null");
+        }
         return studentService.updateStudentImage(studentId, file, request);
     }
 
@@ -81,6 +90,9 @@ public class StudentController {
      */
     @GetMapping(value = "/query")
     public ResultData query(String studentId) {
+        if (StringUtils.isBlank(studentId)) {
+            return ResultData.errorMsg("studentId is null");
+        }
         return studentService.query(studentId);
     }
 

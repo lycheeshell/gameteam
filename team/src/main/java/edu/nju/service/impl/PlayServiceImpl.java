@@ -119,4 +119,35 @@ public class PlayServiceImpl implements PlayService {
 
         return result;
     }
+
+    @Override
+    public ResultData getPlaysByStudentId(String studentId) {
+        ResultData result;
+        Map<String, Object> map = new HashMap<>();
+        map.put("studentId", studentId);
+        ResultData response = playDao.getPlaysByStudentId(map);
+        if (!response.isOK()) {
+            result = ResultData.errorMsg("query play error");
+        } else if (response.isEmpty()) {
+            result = ResultData.empty(response.getData());
+        } else {
+            result = ResultData.ok(response.getData());
+        }
+        return result;
+    }
+
+    @Override
+    public ResultData leaveParticipant(String playId, String studentId) {
+        ResultData result;
+        Map<String, Object> map = new HashMap<>();
+        map.put("playId", playId);
+        map.put("studentId", studentId);
+        ResultData response = participantDao.delete(map);
+        if (!response.isOK()) {
+            result = ResultData.errorMsg("Fail to delete participant from database");
+            return result;
+        }
+        result = ResultData.ok(response.getData());
+        return result;
+    }
 }

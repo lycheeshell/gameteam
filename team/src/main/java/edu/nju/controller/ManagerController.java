@@ -5,6 +5,7 @@ import edu.nju.service.GameService;
 import edu.nju.service.ManagerService;
 import edu.nju.service.QuestionService;
 import edu.nju.util.ResultData;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -47,6 +48,12 @@ public class ManagerController {
      */
     @PostMapping(value = "/createGame")
     public ResultData createGame(String name, String description) {
+        if (StringUtils.isBlank(name)) {
+            return ResultData.errorMsg("name is null");
+        }
+        if (StringUtils.isBlank(description)) {
+            return ResultData.errorMsg("description is null");
+        }
         return gameService.createGame(name, description);
     }
 
@@ -59,6 +66,9 @@ public class ManagerController {
      */
     @PostMapping(value = "/updateGameImage")
     public ResultData updateGameImage(String gameId, @RequestParam("file")MultipartFile file, HttpServletRequest request) {
+        if (StringUtils.isBlank(gameId)) {
+            return ResultData.errorMsg("gameId is null");
+        }
         return gameService.updateGameImage(gameId, file, request);
     }
 
@@ -69,6 +79,9 @@ public class ManagerController {
      */
     @PostMapping(value = "/deleteGame")
     public ResultData deleteGame(String gameId) {
+        if (StringUtils.isBlank(gameId)) {
+            return ResultData.errorMsg("gameId is null");
+        }
         return gameService.deleteGame(gameId);
     }
 
@@ -81,6 +94,15 @@ public class ManagerController {
      */
     @PostMapping(value = "/updateGame")
     public ResultData updateGame(String gameId, String name, String description) {
+        if (StringUtils.isBlank(gameId)) {
+            return ResultData.errorMsg("gameId is null");
+        }
+        if (StringUtils.isBlank(name)) {
+            return ResultData.errorMsg("name is null");
+        }
+        if (StringUtils.isBlank(description)) {
+            return ResultData.errorMsg("description is null");
+        }
         return gameService.updateGame(gameId, name, description);
     }
 
@@ -102,6 +124,9 @@ public class ManagerController {
      */
     @PostMapping(value = "/deleteQuestion")
     public ResultData deleteQuestion(String questionId) {
+        if (StringUtils.isBlank(questionId)) {
+            return ResultData.errorMsg("questionId is null");
+        }
         return questionService.deleteQuestion(questionId);
     }
 

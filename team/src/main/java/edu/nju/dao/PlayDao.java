@@ -19,4 +19,6 @@ public interface PlayDao {
 
     ResultData update(Play play);
 
+    ResultData getPlaysByStudentId(Map<String, Object> condition);
+
 }

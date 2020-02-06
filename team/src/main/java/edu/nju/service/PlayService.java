@@ -15,4 +15,8 @@ public interface PlayService {
 
     ResultData addParticipant(String playId, String studentId);
 
+    ResultData getPlaysByStudentId(String studentId);
+
+    ResultData leaveParticipant(String playId, String studentId);
+
 }

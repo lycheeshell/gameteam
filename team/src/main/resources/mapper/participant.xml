@@ -15,11 +15,8 @@
     </insert>
 
     <delete id="delete" parameterType="java.util.Map">
-        UPDATE gameteam.participant
-        SET
-        block_flag = 1
-        WHERE
-        play_id = #{playId} AND student_id = #{studentId}
+        DELETE FROM gameteam.participant
+        WHERE play_id = #{playId} AND student_id = #{studentId}
     </delete>
 
     <select id="query" parameterType="java.util.Map" resultMap="infoVo">

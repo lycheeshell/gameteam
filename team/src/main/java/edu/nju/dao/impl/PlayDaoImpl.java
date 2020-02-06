@@ -81,4 +81,22 @@ public class PlayDaoImpl extends BaseDao implements PlayDao {
         }
         return result;
     }
+
+    @Override
+    public ResultData getPlaysByStudentId(Map<String, Object> condition) {
+        ResultData result;
+        try{
+            List<Play> list = sqlSession.selectList("nju.team.play.queryStudentPlay", condition);
+            if (list.isEmpty()) {
+                result = ResultData.empty(list);
+            } else {
+                result = ResultData.ok(list);
+            }
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            result = ResultData.errorMsg(e.getMessage());
+        }
+        return result;
+    }
 }

@@ -3,6 +3,7 @@ package edu.nju.controller;
 import edu.nju.model.Play;
 import edu.nju.service.PlayService;
 import edu.nju.util.ResultData;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -38,9 +39,51 @@ public class PlayController {
         return playService.search(play);
     }
 
+    /**
+     * 学生参加组局
+     * @param playId
+     * @param studentId
+     * @return
+     */
     @PostMapping(value = "/addParticipant")
     public ResultData addParticipant(String playId, String studentId) {
+        if (StringUtils.isBlank(playId)) {
+            return ResultData.errorMsg("playId is null");
+        }
+        if (StringUtils.isBlank(studentId)) {
+            return ResultData.errorMsg("studentId is null");
+        }
         return playService.addParticipant(playId, studentId);
+    }
+
+    /**
+     * 获取学生参与的组局
+     * @param studentId
+     * @return
+     */
+    @GetMapping(value = "/myPlay")
+    public ResultData myPlay(String studentId) {
+        if (StringUtils.isBlank(studentId)) {
+            return ResultData.errorMsg("studentId is null");
+        }
+        return playService.getPlaysByStudentId(studentId);
+    }
+
+    /**
+     * 学生退出组局
+     * @param playId
+     * @param studentId
+     * @return
+     */
+    @PostMapping(value = "/leaveParticipant")
+    public ResultData leaveParticipant(String playId, String studentId) {
+        if (StringUtils.isBlank(playId)) {
+            return ResultData.errorMsg("playId is null");
+        }
+        if (StringUtils.isBlank(studentId)) {
+            return ResultData.errorMsg("studentId is null");
+        }
+        return playService.leaveParticipant(playId, studentId);
     }
 
 
