@@ -1,6 +1,5 @@
 package edu.nju.controller;
 
-import edu.nju.model.Adept;
 import edu.nju.service.GameService;
 import edu.nju.service.QuestionService;
 import edu.nju.util.ResultData;

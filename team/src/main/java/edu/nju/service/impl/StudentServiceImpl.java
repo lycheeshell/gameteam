@@ -105,6 +105,13 @@ public class StudentServiceImpl implements StudentService {
     @Override
     public ResultData register(Student student) {
         ResultData result = null;
+        Map<String, Object> map = new HashMap<>();
+        map.put("account", student.getAccount());
+        ResultData queryResponse = studentDao.query(map);
+        if (!queryResponse.isEmpty()) {
+            result = ResultData.errorMsg("账号已存在");
+            return result;
+        }
         ResultData response = studentDao.insert(student);
         if (!response.isOK()) {
             result = ResultData.errorMsg("Fail to insert student to database");
