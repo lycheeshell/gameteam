@@ -103,7 +103,7 @@ public class StudentDaoImpl extends BaseDao implements StudentDao {
             if (list.isEmpty()) {
                 result = ResultData.empty(list);
             } else {
-                result = ResultData.ok(list);
+                result = ResultData.ok(list.get(0));
             }
         }
         catch (Exception e) {

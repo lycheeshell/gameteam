@@ -69,7 +69,7 @@ public class StudentServiceImpl implements StudentService {
             return queryResponse;
         }
         //获取会话密钥（session_key）
-        String sessionKey = json.get("session_key").toString();
+        String sessionKey = json.getString("session_key");
 
         Student student = new Student();
         student.setOpenid(openid);
