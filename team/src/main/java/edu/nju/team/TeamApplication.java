@@ -5,7 +5,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 import org.springframework.context.annotation.ComponentScan;
 
-@ComponentScan({"edu.nju.config", "edu.nju.service", "edu.nju.dao", "edu.nju.controller"})
+//@ComponentScan({"edu.nju.config", "edu.nju.service", "edu.nju.dao", "edu.nju.controller"})
+@ComponentScan({"edu.nju.service", "edu.nju.dao", "edu.nju.controller"})
 @SpringBootApplication
 @EnableEurekaClient
 public class TeamApplication {
