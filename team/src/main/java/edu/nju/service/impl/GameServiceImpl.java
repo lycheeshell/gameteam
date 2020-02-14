@@ -11,6 +11,7 @@ import edu.nju.util.ResultData;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
@@ -192,6 +193,7 @@ public class GameServiceImpl implements GameService {
     }
 
     @Override
+    @Transactional
     public ResultData getAdept(String studentId, String gameId) {
         ResultData result;
         Map<String, Object> map = new HashMap<>();

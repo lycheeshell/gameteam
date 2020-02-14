@@ -25,7 +25,7 @@ public class AdeptDaoImpl extends BaseDao implements AdeptDao {
             if (list.isEmpty()) {
                 result = ResultData.empty(list);
             } else {
-                result = ResultData.ok(list);
+                result = ResultData.ok(list.get(0));
             }
         }
         catch (Exception e) {
