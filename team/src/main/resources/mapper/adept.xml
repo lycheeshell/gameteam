@@ -42,7 +42,7 @@
             AND student_id = #{studentId}
         </if>
         <if test="gameId != null">
-            AND gameId = #{game_id}
+            AND game_id = #{gameId}
         </if>
     </select>
 
