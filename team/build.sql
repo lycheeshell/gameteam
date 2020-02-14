@@ -2,9 +2,9 @@ CREATE DATABASE  IF NOT EXISTS `gameteam` /*!40100 DEFAULT CHARACTER SET utf8 */
 USE `gameteam`;
 -- MySQL dump 10.13  Distrib 8.0.17, for Win64 (x86_64)
 --
--- Host: localhost    Database: gameteam
+-- Host: 115.29.224.114    Database: gameteam
 -- ------------------------------------------------------
--- Server version	5.7.25-log
+-- Server version	5.7.28
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -107,8 +107,9 @@ CREATE TABLE `play` (
   `game_id` varchar(40) DEFAULT NULL,
   `start_time` datetime DEFAULT NULL,
   `end_time` datetime DEFAULT NULL,
-  `province` varchar(5) DEFAULT NULL,
-  `city` varchar(10) DEFAULT NULL,
+  `province` varchar(15) DEFAULT NULL,
+  `city` varchar(20) DEFAULT NULL,
+  `county` varchar(20) DEFAULT NULL,
   `location` varchar(40) DEFAULT NULL,
   `min_person` int(2) DEFAULT NULL,
   `max_person` int(2) DEFAULT NULL,
@@ -206,4 +207,4 @@ CREATE TABLE `student` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-02-04 17:49:40
+-- Dump completed on 2020-02-14 19:03:01

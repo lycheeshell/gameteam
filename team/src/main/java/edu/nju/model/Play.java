@@ -14,6 +14,7 @@ public class Play extends Entity {
     private String endTime;    //线下游戏结束时间
     private String province;      //省
     private String city;          //市
+    private String county;        //县
     private String location;      //具体线下游戏的地址
     private int minPerson;        //游戏可以开始的最小人数
     private int maxPerson;        //参与游戏的最大人数
@@ -70,6 +71,14 @@ public class Play extends Entity {
 
     public void setCity(String city) {
         this.city = city;
+    }
+
+    public String getCounty() {
+        return county;
+    }
+
+    public void setCounty(String county) {
+        this.county = county;
     }
 
     public String getLocation() {

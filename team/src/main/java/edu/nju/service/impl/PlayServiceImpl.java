@@ -62,6 +62,9 @@ public class PlayServiceImpl implements PlayService {
         if (play.getCity() != null && play.getCity().length() > 0) {
             map.put("city", play.getCity());
         }
+        if (play.getCounty() != null && play.getCounty().length() > 0) {
+            map.put("county", play.getCounty());
+        }
         if (play.getMinAdeptScore() > 0) {
             map.put("minAdeptScore", play.getMinAdeptScore());
         }
