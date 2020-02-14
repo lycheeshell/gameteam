@@ -34,7 +34,7 @@ public class PlayController {
      * @param play
      * @return
      */
-    @GetMapping(value = "/search")
+    @PostMapping(value = "/search")
     public ResultData search(@RequestBody Play play) {
         return playService.search(play);
     }
