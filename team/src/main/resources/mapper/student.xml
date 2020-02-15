@@ -110,7 +110,7 @@
         from gameteam.student
         where block_flag = 0
         <if test="playId != null">
-            AND student_id = (select student_id from gameteam.participant where play_id = #{playId})
+            AND student_id = any(select student_id from gameteam.participant where play_id = #{playId})
         </if>
     </select>
 

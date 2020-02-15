@@ -115,7 +115,7 @@
         from gameteam.play
         where block_flag = 0
         <if test="studentId != null">
-            AND play_id = (select play_id from gameteam.participant where student_id = #{studentId})
+            AND play_id = any(select play_id from gameteam.participant where student_id = #{studentId})
         </if>
         order by start_time DESC
     </select>

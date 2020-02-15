@@ -79,7 +79,7 @@
         from gameteam.game
         where block_flag = 0
         <if test="studentId != null">
-            AND game_id = (select game_id from gameteam.adept where student_id = #{studentId})
+            AND game_id = any(select game_id from gameteam.adept where student_id = #{studentId})
         </if>
     </select>
 
