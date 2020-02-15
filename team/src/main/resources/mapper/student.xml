@@ -54,14 +54,22 @@
             <if test="photoUrl != null">
                 photo_url = #{photoUrl},
             </if>
-            <if test="credit != null">
-                credit = #{credit},
-            </if>
             <if test="openid != null">
                 openid = #{openid},
             </if>
             <if test="session_key != null">
                 session_key = #{session_key},
+            </if>
+            student_id = #{studentId}
+        </set>
+        where student_id = #{studentId}
+    </update>
+
+    <update id="updateCredit" parameterType="edu.nju.model.Student">
+        update gameteam.student
+        <set>
+            <if test="credit != null">
+                credit = #{credit},
             </if>
             student_id = #{studentId}
         </set>
