@@ -11,7 +11,7 @@
 
     <insert id="insert" parameterType="edu.nju.model.Participant">
         insert into gameteam.participant(participant_id, play_id, student_id, block_flag, create_time)
-        SELECT  #{participantId}, #{playId}, #{studentId}, #{blockFlag}, #{createAt})
+        SELECT  #{participantId}, #{playId}, #{studentId}, #{blockFlag}, #{createAt}
         FROM dual WHERE not exists
         (select participant_id from gameteam.participant as p
          where p.play_id = #{playId} and p.student_id = #{studentId} and p.block_flag = 0)
