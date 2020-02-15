@@ -105,7 +105,7 @@ public class PlayDaoImpl extends BaseDao implements PlayDao {
     public ResultData getPlayMembers(Map<String, Object> condition) {
         ResultData result;
         try{
-            List<Student> list = sqlSession.selectList("nju.team.play.getPlayMembers", condition);
+            List<Student> list = sqlSession.selectList("nju.team.student.getPlayMembers", condition);
             if (list.isEmpty()) {
                 result = ResultData.empty(list);
             } else {

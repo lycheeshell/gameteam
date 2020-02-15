@@ -120,13 +120,4 @@
         order by start_time DESC
     </select>
 
-    <select id="getPlayMembers" parameterType="java.util.Map" resultMap="infoVo">
-        select student_id,account,password,phone,email,sex,birthday,school,start_year,photo_url,credit,openid,session_key, block_flag, create_time
-        from gameteam.student
-        where block_flag = 0
-        <if test="playId != null">
-            AND student_id = (select student_id from gameteam.participant where play_id = #{playId}
-        </if>
-    </select>
-
 </mapper>
