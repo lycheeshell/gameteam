@@ -10,7 +10,7 @@
         <result property="sex" column="sex"></result>
         <result property="birthday" column="birthday"></result>
         <result property="school" column="school"></result>
-        <result property="startYear" column="startYear"></result>
+        <result property="startYear" column="start_year"></result>
         <result property="photoUrl" column="photo_url"></result>
         <result property="credit" column="credit"></result>
         <result property="openid" column="openid"></result>
