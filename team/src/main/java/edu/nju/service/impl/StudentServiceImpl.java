@@ -74,6 +74,7 @@ public class StudentServiceImpl implements StudentService {
         Student student = new Student();
         student.setOpenid(openid);
         student.setSession_key(sessionKey);
+        student.setCredit(100);
 
         ResultData saveResponse = studentDao.insert(student);
 
