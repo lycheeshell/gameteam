@@ -82,9 +82,9 @@
             <if test="photoUrl != null">
                 photo_url = #{photoUrl},
             </if>
-            game_id = #{gameId}
+            student_id = #{studentId}
         </set>
-        where game_id = #{gameId}
+        where student_id = #{studentId}
     </update>
 
     <delete id="delete" parameterType="java.util.Map">
