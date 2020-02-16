@@ -148,9 +148,7 @@ public class StudentServiceImpl implements StudentService {
                     + request.getContextPath() + "/static/images/";//存储路径
             String path = request.getSession().getServletContext().getRealPath("/"); //文件存储位置
             logger.info("returnUrl: " + returnUrl + "student/");
-            System.out.println("returnUrl: " + returnUrl + "student/");
             logger.info("path: " + path + "static/images/student/");
-            System.out.println("path: " + path + "static/images/student/");
             //先判断文件是否存在
             //获取文件夹路径
             File folder = new File(path + "static/images/student/");
