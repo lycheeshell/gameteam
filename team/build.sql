@@ -188,7 +188,7 @@ CREATE TABLE `student` (
   `birthday` datetime DEFAULT NULL,
   `school` varchar(20) DEFAULT NULL,
   `start_year` int(4) DEFAULT NULL,
-  `photo_url` varchar(50) DEFAULT NULL,
+  `photo_url` varchar(100) DEFAULT NULL,
   `credit` int(3) DEFAULT NULL,
   `openid` varchar(40) DEFAULT NULL,
   `session_key` varchar(40) DEFAULT NULL,
