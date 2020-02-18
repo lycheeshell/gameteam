@@ -5,6 +5,7 @@ import edu.nju.dao.BaseDao;
 import edu.nju.model.Adept;
 import edu.nju.util.IDGenerator;
 import edu.nju.util.ResultData;
+import org.apache.log4j.Logger;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -29,7 +30,7 @@ public class AdeptDaoImpl extends BaseDao implements AdeptDao {
             }
         }
         catch (Exception e) {
-            e.printStackTrace();
+            System.out.println(e.getMessage());
             result = ResultData.errorMsg(e.getMessage());
         }
         return result;
@@ -43,7 +44,7 @@ public class AdeptDaoImpl extends BaseDao implements AdeptDao {
             sqlSession.insert("nju.team.adept.insert", adept);
             result = ResultData.ok(adept);
         } catch (Exception e) {
-            e.printStackTrace();
+            System.out.println(e.getMessage());
             result = ResultData.errorMsg(e.getMessage());
         }
         return result;
@@ -57,7 +58,7 @@ public class AdeptDaoImpl extends BaseDao implements AdeptDao {
             result = ResultData.ok(adept);
         }
         catch (Exception e) {
-            e.printStackTrace();
+            System.out.println(e.getMessage());
             result = ResultData.errorMsg(e.getMessage());
         }
         return result;

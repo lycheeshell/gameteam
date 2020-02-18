@@ -25,7 +25,7 @@ public class ParticipantDaoImpl extends BaseDao implements ParticipantDao {
             sqlSession.insert("nju.team.participant.insert", participant);
             result = ResultData.ok(participant);
         } catch (Exception e) {
-            e.printStackTrace();
+            System.out.println(e.getMessage());
             result = ResultData.errorMsg(e.getMessage());
         }
         return result;
@@ -38,7 +38,7 @@ public class ParticipantDaoImpl extends BaseDao implements ParticipantDao {
             sqlSession.delete("nju.team.participant.delete",condition);
             result = ResultData.ok();
         } catch ( Exception e) {
-            e.printStackTrace();
+            System.out.println(e.getMessage());
             result = ResultData.errorMsg(e.getMessage());
         }
         return result;
@@ -56,7 +56,7 @@ public class ParticipantDaoImpl extends BaseDao implements ParticipantDao {
             }
         }
         catch (Exception e) {
-            e.printStackTrace();
+            System.out.println(e.getMessage());
             result = ResultData.errorMsg(e.getMessage());
         }
         return result;

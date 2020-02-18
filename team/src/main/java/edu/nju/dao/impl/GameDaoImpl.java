@@ -5,6 +5,7 @@ import edu.nju.dao.GameDao;
 import edu.nju.model.Game;
 import edu.nju.util.IDGenerator;
 import edu.nju.util.ResultData;
+import org.apache.log4j.Logger;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -25,7 +26,7 @@ public class GameDaoImpl extends BaseDao implements GameDao {
             sqlSession.insert("nju.team.game.insert", game);
             result = ResultData.ok(game);
         } catch (Exception e) {
-            e.printStackTrace();
+            System.out.println(e.getMessage());
             result = ResultData.errorMsg(e.getMessage());
         }
         return result;
@@ -39,7 +40,7 @@ public class GameDaoImpl extends BaseDao implements GameDao {
             result = ResultData.ok(game);
         }
         catch (Exception e) {
-            e.printStackTrace();
+            System.out.println(e.getMessage());
             result = ResultData.errorMsg(e.getMessage());
         }
         return result;
@@ -53,7 +54,7 @@ public class GameDaoImpl extends BaseDao implements GameDao {
             result = ResultData.ok(game);
         }
         catch (Exception e) {
-            e.printStackTrace();
+            System.out.println(e.getMessage());
             result = ResultData.errorMsg(e.getMessage());
         }
         return result;
@@ -65,8 +66,8 @@ public class GameDaoImpl extends BaseDao implements GameDao {
         try {
             sqlSession.delete("nju.team.game.delete",condition);
             result = ResultData.ok();
-        } catch ( Exception e) {
-            e.printStackTrace();
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
             result = ResultData.errorMsg(e.getMessage());
         }
         return result;
@@ -84,7 +85,7 @@ public class GameDaoImpl extends BaseDao implements GameDao {
             }
         }
         catch (Exception e) {
-            e.printStackTrace();
+            System.out.println(e.getMessage());
             result = ResultData.errorMsg(e.getMessage());
         }
         return result;
@@ -102,7 +103,7 @@ public class GameDaoImpl extends BaseDao implements GameDao {
             }
         }
         catch (Exception e) {
-            e.printStackTrace();
+            System.out.println(e.getMessage());
             result = ResultData.errorMsg(e.getMessage());
         }
         return result;
@@ -120,7 +121,7 @@ public class GameDaoImpl extends BaseDao implements GameDao {
             }
         }
         catch (Exception e) {
-            e.printStackTrace();
+            System.out.println(e.getMessage());
             result = ResultData.errorMsg(e.getMessage());
         }
         return result;
@@ -138,7 +139,7 @@ public class GameDaoImpl extends BaseDao implements GameDao {
             }
         }
         catch (Exception e) {
-            e.printStackTrace();
+            System.out.println(e.getMessage());
             result = ResultData.errorMsg(e.getMessage());
         }
         return result;

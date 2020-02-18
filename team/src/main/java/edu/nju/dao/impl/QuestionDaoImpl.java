@@ -25,7 +25,7 @@ public class QuestionDaoImpl extends BaseDao implements QuestionDao {
             sqlSession.insert("nju.team.question.insert", question);
             result = ResultData.ok(question);
         } catch (Exception e) {
-            e.printStackTrace();
+            System.out.println(e.getMessage());
             result = ResultData.errorMsg(e.getMessage());
         }
         return result;
@@ -37,8 +37,8 @@ public class QuestionDaoImpl extends BaseDao implements QuestionDao {
         try {
             sqlSession.delete("nju.team.question.delete",condition);
             result = ResultData.ok();
-        } catch ( Exception e) {
-            e.printStackTrace();
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
             result = ResultData.errorMsg(e.getMessage());
         }
         return result;
@@ -56,7 +56,7 @@ public class QuestionDaoImpl extends BaseDao implements QuestionDao {
             }
         }
         catch (Exception e) {
-            e.printStackTrace();
+            System.out.println(e.getMessage());
             result = ResultData.errorMsg(e.getMessage());
         }
         return result;

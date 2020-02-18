@@ -127,7 +127,7 @@ public class StudentServiceImpl implements StudentService {
     public ResultData updateStudentImage(String studentId, MultipartFile file, HttpServletRequest request) {
         ResultData result = null;
         String fileName = file.getOriginalFilename();//获取文件名加后缀
-        if (fileName != null && fileName != "") {
+        if (fileName != null && !fileName.equals("")) {
             String fileSuffix = fileName.indexOf(".")!=-1?fileName.substring(fileName.lastIndexOf(".")+1):"";//文件后缀
 
             String[] suffixArray = {"jpg", "jpeg", "png", "bmp"};
@@ -147,8 +147,8 @@ public class StudentServiceImpl implements StudentService {
             String returnUrl = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort()
                     + request.getContextPath() + "/static/images/";//存储路径
             String path = request.getSession().getServletContext().getRealPath("/"); //文件存储位置
-            logger.info("returnUrl: " + returnUrl + "student/");
-            logger.info("path: " + path + "static/images/student/");
+            System.out.println("returnUrl: " + returnUrl + "student/");
+            System.out.println("path: " + path + "static/images/student/");
             //先判断文件是否存在
             //获取文件夹路径
             File folder = new File(path + "static/images/student/");
@@ -174,7 +174,7 @@ public class StudentServiceImpl implements StudentService {
                     result = ResultData.ok(response.getData());
                 }
             } catch (Exception e) {
-                e.printStackTrace();
+                System.out.println(e.getMessage());
                 result = ResultData.errorMsg("Fail to upload file");
             }
         }

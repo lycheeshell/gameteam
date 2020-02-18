@@ -4,6 +4,7 @@ import edu.nju.dao.BaseDao;
 import edu.nju.dao.ManagerDao;
 import edu.nju.model.Manager;
 import edu.nju.util.ResultData;
+import org.apache.log4j.Logger;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -28,7 +29,7 @@ public class ManagerDaoImpl extends BaseDao implements ManagerDao {
             }
         }
         catch (Exception e) {
-            e.printStackTrace();
+            System.out.println(e.getMessage());
             result = ResultData.errorMsg(e.getMessage());
         }
         return result;

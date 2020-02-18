@@ -27,7 +27,7 @@ public class PlayDaoImpl extends BaseDao implements PlayDao {
             sqlSession.insert("nju.team.play.insert", play);
             result = ResultData.ok(play);
         } catch (Exception e) {
-            e.printStackTrace();
+            System.out.println(e.getMessage());
             result = ResultData.errorMsg(e.getMessage());
         }
         return result;
@@ -45,7 +45,7 @@ public class PlayDaoImpl extends BaseDao implements PlayDao {
             }
         }
         catch (Exception e) {
-            e.printStackTrace();
+            System.out.println(e.getMessage());
             result = ResultData.errorMsg(e.getMessage());
         }
         return result;
@@ -63,7 +63,7 @@ public class PlayDaoImpl extends BaseDao implements PlayDao {
             }
         }
         catch (Exception e) {
-            e.printStackTrace();
+            System.out.println(e.getMessage());
             result = ResultData.errorMsg(e.getMessage());
         }
         return result;
@@ -77,7 +77,7 @@ public class PlayDaoImpl extends BaseDao implements PlayDao {
             result = ResultData.ok(play);
         }
         catch (Exception e) {
-            e.printStackTrace();
+            System.out.println(e.getMessage());
             result = ResultData.errorMsg(e.getMessage());
         }
         return result;
@@ -95,7 +95,7 @@ public class PlayDaoImpl extends BaseDao implements PlayDao {
             }
         }
         catch (Exception e) {
-            e.printStackTrace();
+            System.out.println(e.getMessage());
             result = ResultData.errorMsg(e.getMessage());
         }
         return result;
@@ -113,7 +113,7 @@ public class PlayDaoImpl extends BaseDao implements PlayDao {
             }
         }
         catch (Exception e) {
-            e.printStackTrace();
+            System.out.println(e.getMessage());
             result = ResultData.errorMsg(e.getMessage());
         }
         return result;

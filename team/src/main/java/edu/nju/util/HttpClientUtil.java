@@ -28,11 +28,12 @@ public class HttpClientUtil {
     public static String doGet(String url, Map<String, String> param) {
 
         // 创建Httpclient对象
-        CloseableHttpClient httpclient = HttpClients.createDefault();
+        CloseableHttpClient httpclient = null;
 
         String resultString = "";
         CloseableHttpResponse response = null;
         try {
+            httpclient = HttpClients.createDefault();
             // 创建uri
             URIBuilder builder = new URIBuilder(url);
             if (param != null) {
@@ -53,15 +54,21 @@ public class HttpClientUtil {
                 resultString = EntityUtils.toString(response.getEntity(), "UTF-8");
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            System.out.println(e.getMessage());
         } finally {
+            try {
+                if (httpclient != null) {
+                    httpclient.close();
+                }
+            } catch (IOException e) {
+                System.out.println(e.getMessage());
+            }
             try {
                 if (response != null) {
                     response.close();
                 }
-                httpclient.close();
             } catch (IOException e) {
-                e.printStackTrace();
+                System.out.println(e.getMessage());
             }
         }
         return resultString;
@@ -73,10 +80,11 @@ public class HttpClientUtil {
 
     public static String doPost(String url, Map<String, String> param) {
         // 创建Httpclient对象
-        CloseableHttpClient httpClient = HttpClients.createDefault();
+        CloseableHttpClient httpClient = null;
         CloseableHttpResponse response = null;
         String resultString = "";
         try {
+            httpClient = HttpClients.createDefault();
             // 创建Http Post请求
             HttpPost httpPost = new HttpPost(url);
             // 创建参数列表
@@ -93,14 +101,21 @@ public class HttpClientUtil {
             response = httpClient.execute(httpPost);
             resultString = EntityUtils.toString(response.getEntity(), "utf-8");
         } catch (Exception e) {
-            e.printStackTrace();
+            System.out.println(e.getMessage());
         } finally {
+            try {
+                if (httpClient != null) {
+                    httpClient.close();
+                }
+            } catch (IOException e) {
+                System.out.println(e.getMessage());
+            }
             try {
                 if (response != null) {
                     response.close();
                 }
             } catch (IOException e) {
-                e.printStackTrace();
+                System.out.println(e.getMessage());
             }
         }
 
@@ -113,10 +128,11 @@ public class HttpClientUtil {
 
     public static String doPostJson(String url, String json) {
         // 创建Httpclient对象
-        CloseableHttpClient httpClient = HttpClients.createDefault();
+        CloseableHttpClient httpClient = null;
         CloseableHttpResponse response = null;
         String resultString = "";
         try {
+            httpClient = HttpClients.createDefault();
             // 创建Http Post请求
             HttpPost httpPost = new HttpPost(url);
             // 创建请求内容
@@ -126,14 +142,21 @@ public class HttpClientUtil {
             response = httpClient.execute(httpPost);
             resultString = EntityUtils.toString(response.getEntity(), "utf-8");
         } catch (Exception e) {
-            e.printStackTrace();
+            System.out.println(e.getMessage());
         } finally {
+            try {
+                if (httpClient != null) {
+                    httpClient.close();
+                }
+            } catch (IOException e) {
+                System.out.println(e.getMessage());
+            }
             try {
                 if (response != null) {
                     response.close();
                 }
             } catch (IOException e) {
-                e.printStackTrace();
+                System.out.println(e.getMessage());
             }
         }
 

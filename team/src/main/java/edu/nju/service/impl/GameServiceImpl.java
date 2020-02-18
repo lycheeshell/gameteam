@@ -92,7 +92,7 @@ public class GameServiceImpl implements GameService {
     public ResultData updateGameImage(String gameId, MultipartFile file, HttpServletRequest request) {
         ResultData result = null;
         String fileName = file.getOriginalFilename();//获取文件名加后缀
-        if (fileName != null && fileName != "") {
+        if (fileName != null && !fileName.equals("")) {
             String fileSuffix = fileName.indexOf(".")!=-1?fileName.substring(fileName.lastIndexOf(".")+1):"";//文件后缀
 
             String[] suffixArray = {"jpg", "jpeg", "png", "bmp"};
@@ -137,7 +137,7 @@ public class GameServiceImpl implements GameService {
                     result = ResultData.ok(response.getData());
                 }
             } catch (Exception e) {
-                e.printStackTrace();
+                System.out.println(e.getMessage());
                 result = ResultData.errorMsg("Fail to upload file");
             }
         }

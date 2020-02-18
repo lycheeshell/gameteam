@@ -25,7 +25,7 @@ public class StudentDaoImpl extends BaseDao implements StudentDao {
             sqlSession.insert("nju.team.student.insert", student);
             result = ResultData.ok(student);
         } catch (Exception e) {
-            e.printStackTrace();
+            System.out.println(e.getMessage());
             result = ResultData.errorMsg(e.getMessage());
         }
         return result;
@@ -39,7 +39,7 @@ public class StudentDaoImpl extends BaseDao implements StudentDao {
             result = ResultData.ok(student);
         }
         catch (Exception e) {
-            e.printStackTrace();
+            System.out.println(e.getMessage());
             result = ResultData.errorMsg(e.getMessage());
         }
         return result;
@@ -53,7 +53,7 @@ public class StudentDaoImpl extends BaseDao implements StudentDao {
             result = ResultData.ok(student);
         }
         catch (Exception e) {
-            e.printStackTrace();
+            System.out.println(e.getMessage());
             result = ResultData.errorMsg(e.getMessage());
         }
         return result;
@@ -71,7 +71,7 @@ public class StudentDaoImpl extends BaseDao implements StudentDao {
             }
         }
         catch (Exception e) {
-            e.printStackTrace();
+            System.out.println(e.getMessage());
             result = ResultData.errorMsg(e.getMessage());
         }
         return result;
@@ -89,7 +89,7 @@ public class StudentDaoImpl extends BaseDao implements StudentDao {
             }
         }
         catch (Exception e) {
-            e.printStackTrace();
+            System.out.println(e.getMessage());
             result = ResultData.errorMsg(e.getMessage());
         }
         return result;
@@ -107,7 +107,7 @@ public class StudentDaoImpl extends BaseDao implements StudentDao {
             }
         }
         catch (Exception e) {
-            e.printStackTrace();
+            System.out.println(e.getMessage());
             result = ResultData.errorMsg(e.getMessage());
         }
         return result;
