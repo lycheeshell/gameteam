@@ -2,8 +2,10 @@ package edu.nju.service.impl;
 
 import edu.nju.dao.ParticipantDao;
 import edu.nju.dao.PlayDao;
+import edu.nju.dao.StudentDao;
 import edu.nju.model.Participant;
 import edu.nju.model.Play;
+import edu.nju.model.Student;
 import edu.nju.service.PlayService;
 import edu.nju.util.ResultData;
 import org.apache.log4j.Logger;
@@ -26,6 +28,9 @@ public class PlayServiceImpl implements PlayService {
 
     @Autowired
     private PlayDao playDao;
+
+    @Autowired
+    private StudentDao studentDao;
 
     @Autowired
     private ParticipantDao participantDao;
@@ -84,10 +89,19 @@ public class PlayServiceImpl implements PlayService {
     public ResultData addParticipant(String playId, String studentId) {
         ResultData result;
 
-        //检查是否超过组局的最大人数
         Map<String, Object> map = new HashMap<>();
-        map.put("playId", playId);
         map.put("studentId", studentId);
+        //检查信誉分是否有60
+        ResultData creditResponse = studentDao.query(map);
+        Student student = ((List<Student>)creditResponse.getData()).get(0);
+        if (student.getCredit() < 60) {
+            result = ResultData.ok();
+            result.setData(Integer.valueOf(-1));
+            return result;
+        }
+
+        //检查是否超过组局的最大人数
+        map.put("playId", playId);
         ResultData participantResponse = participantDao.query(map);
         List<Participant> participantList = (List<Participant>)participantResponse.getData();
         ResultData playResponse = playDao.query(map);
