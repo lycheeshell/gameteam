@@ -113,4 +113,22 @@ public class StudentDaoImpl extends BaseDao implements StudentDao {
         return result;
     }
 
+    @Override
+    public ResultData updateCreditQuit(Map<String, Object> condition) {
+        ResultData result;
+        try{
+            int updateNum = sqlSession.update("nju.team.student.updateCreditQuit", condition);
+            if (updateNum != 1) {
+                result = ResultData.empty();
+            } else {
+                result = ResultData.ok();
+            }
+        }
+        catch (Exception e) {
+            System.out.println(e.getMessage());
+            result = ResultData.errorMsg(e.getMessage());
+        }
+        return result;
+    }
+
 }

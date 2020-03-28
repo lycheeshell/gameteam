@@ -7,6 +7,7 @@ import edu.nju.model.Participant;
 import edu.nju.model.Play;
 import edu.nju.model.Student;
 import edu.nju.service.PlayService;
+import edu.nju.util.MailUtil;
 import edu.nju.util.ResultData;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -93,7 +94,7 @@ public class PlayServiceImpl implements PlayService {
         map.put("studentId", studentId);
         //检查信誉分是否有60
         ResultData creditResponse = studentDao.query(map);
-        Student student = ((List<Student>)creditResponse.getData()).get(0);
+        Student student = ((List<Student>) creditResponse.getData()).get(0);
         if (student.getCredit() < 60) {
             result = ResultData.ok();
             result.setData(Integer.valueOf(-1));
@@ -103,12 +104,12 @@ public class PlayServiceImpl implements PlayService {
         //检查是否超过组局的最大人数
         map.put("playId", playId);
         ResultData participantResponse = participantDao.query(map);
-        List<Participant> participantList = (List<Participant>)participantResponse.getData();
+        List<Participant> participantList = (List<Participant>) participantResponse.getData();
         ResultData playResponse = playDao.query(map);
-        List<Play> playList =  (List<Play>) playResponse.getData();
+        List<Play> playList = (List<Play>) playResponse.getData();
         if (participantList.size() >= playList.get(0).getMaxPerson()) {
             result = ResultData.empty();
-            result.setMsg("Num of Student oversize");
+            result.setMsg("已达组局的最大人数，加入失败");
             return result;
         }
 
@@ -132,6 +133,32 @@ public class PlayServiceImpl implements PlayService {
             if (!updateResponse.isOK()) {
                 result = ResultData.errorMsg("Fail to update play to database");
                 return result;
+            }
+
+            //发送组局成功的邮件
+            Map<String, Object> mapTmp = new HashMap<>();
+            mapTmp.put("playId", playId);
+            ResultData playQueryResponse = playDao.query(mapTmp);
+            Play pla = ((List<Play>) playQueryResponse.getData()).get(0);
+            StringBuilder sb = new StringBuilder();
+            sb.append("您参与的在").append(pla.getProvince()).append(pla.getCity()).append(pla.getCounty())
+                    .append("于").append(pla.getStartTime())
+                    .append("开始的线下组局已达最少参与人数，请您到时签到并参与。如未签到，将扣除10分的信誉分。");
+            String mailMessage = sb.toString();
+            try {
+                for (Participant par : participantList) {
+                    mapTmp.clear();
+                    mapTmp.put("studentId", par.getStudentId());
+                    ResultData stuQueryResponse = studentDao.query(mapTmp);
+                    Student stu = ((List<Student>) stuQueryResponse.getData()).get(0);
+                    if (stu.getEmail().length() > 1) {
+                        MailUtil.sendMail(stu.getEmail(), "组局成功通知", mailMessage);
+                    }
+                }
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+//                result = ResultData.errorMsg("Fail to send mail");
+//                return result;
             }
         }
 
@@ -164,16 +191,16 @@ public class PlayServiceImpl implements PlayService {
 
         //检查组局是否处于状态0或1
         ResultData queryResponse = playDao.query(map);
-        Play play = ((List<Play>)queryResponse.getData()).get(0);
+        Play play = ((List<Play>) queryResponse.getData()).get(0);
         if (play.getStatus() > 1) {
-            result = ResultData.errorMsg("play is ended, delete fail");
+            result = ResultData.errorMsg("游戏已结束，退出失败");
             return result;
         }
 
         //如果组局人数刚好等于最小人数，将组局状态设置为0
         if (play.getStatus() == 1) {
             ResultData participantResponse = participantDao.query(map);
-            List<Participant> participantList = (List<Participant>)participantResponse.getData();
+            List<Participant> participantList = (List<Participant>) participantResponse.getData();
             if (participantList.size() == play.getMinPerson()) {
                 play.setStatus(0);
                 ResultData updateResponse = playDao.update(play);
@@ -181,9 +208,42 @@ public class PlayServiceImpl implements PlayService {
                     result = ResultData.errorMsg("Fail to update play to database");
                     return result;
                 }
+
+                //发送组局失败的邮件
+                Map<String, Object> mapTmp = new HashMap<>();
+                StringBuilder sb = new StringBuilder();
+                sb.append("由于有人退出，您参与的在").append(play.getProvince()).append(play.getCity()).append(play.getCounty())
+                        .append("于").append(play.getStartTime())
+                        .append("开始的线下组局的人数少于最少参与人数，请您继续等待新的参与者。");
+                String mailMessage = sb.toString();
+                try {
+                    for (Participant par : participantList) {
+                        mapTmp.clear();
+                        mapTmp.put("studentId", par.getStudentId());
+                        ResultData stuQueryResponse = studentDao.query(mapTmp);
+                        Student stu = ((List<Student>) stuQueryResponse.getData()).get(0);
+                        if (stu.getEmail().length() > 1) {
+                            MailUtil.sendMail(stu.getEmail(), "组局人员退出变动通知", mailMessage);
+                        }
+                    }
+                } catch (Exception e) {
+                    System.out.println(e.getMessage());
+//                result = ResultData.errorMsg("Fail to send mail");
+//                return result;
+                }
             }
         }
 
+        //扣除信誉分
+        Map<String, Object> studentMap = new HashMap<>();
+        map.put("studentId", studentId);
+        ResultData creditResponse = studentDao.updateCreditQuit(studentMap);
+        if (!creditResponse.isOK()) {
+            result = ResultData.errorMsg("Fail to update student credit to database");
+            return result;
+        }
+
+        //删除参与者
         ResultData deleteResponse = participantDao.delete(map);
         if (!deleteResponse.isOK()) {
             result = ResultData.errorMsg("Fail to delete participant from database");

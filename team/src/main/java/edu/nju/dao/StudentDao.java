@@ -23,4 +23,6 @@ public interface StudentDao {
 
     ResultData queryStudentByOpenid(Map<String, Object> condition);
 
+    ResultData updateCreditQuit(Map<String, Object> condition);
+
 }

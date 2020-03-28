@@ -65,11 +65,11 @@
         where student_id = #{studentId}
     </update>
 
-    <update id="updateCredit" parameterType="edu.nju.model.Student">
+    <update id="updateCreditQuit" parameterType="java.util.Map">
         update gameteam.student
         <set>
             <if test="credit != null">
-                credit = #{credit},
+                credit = credit - 5,
             </if>
             student_id = #{studentId}
         </set>
