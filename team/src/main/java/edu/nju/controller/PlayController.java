@@ -99,4 +99,67 @@ public class PlayController {
         return playService.getPlayMembers(playId);
     }
 
+    /**
+     * 根据学生from是否对学生to展示信息，获得学生from的信息
+     * @param playId
+     * @param fromStudentId
+     * @param toStudentId
+     * @return 如果学生from对学生to展示了信息，返回学生from的信息:Student ，否则返回空对象
+     */
+    @GetMapping(value = "/getShowStudent")
+    public ResultData getShowStudent(String playId, String fromStudentId, String toStudentId) {
+        if (StringUtils.isBlank(playId)) {
+            return ResultData.errorMsg("playId is null");
+        }
+        if (StringUtils.isBlank(fromStudentId)) {
+            return ResultData.errorMsg("fromStudentId is null");
+        }
+        if (StringUtils.isBlank(toStudentId)) {
+            return ResultData.errorMsg("toStudentId is null");
+        }
+        return playService.getShowStudent(playId, fromStudentId, toStudentId);
+    }
+
+    /**
+     * 在组局中添加向学生to展示学生from的信息
+     * @param playId
+     * @param fromStudentId
+     * @param toStudentId
+     * @return
+     */
+    @PostMapping(value = "/addShowStudent")
+    public ResultData addShowStudent(String playId, String fromStudentId, String toStudentId) {
+        if (StringUtils.isBlank(playId)) {
+            return ResultData.errorMsg("playId is null");
+        }
+        if (StringUtils.isBlank(fromStudentId)) {
+            return ResultData.errorMsg("fromStudentId is null");
+        }
+        if (StringUtils.isBlank(toStudentId)) {
+            return ResultData.errorMsg("toStudentId is null");
+        }
+        return playService.addShowStudent(playId, fromStudentId, toStudentId);
+    }
+
+    /**
+     * 在组局中删除向学生to展示学生from的信息
+     * @param playId
+     * @param fromStudentId
+     * @param toStudentId
+     * @return
+     */
+    @PostMapping(value = "/deleteShowStudent")
+    public ResultData deleteShowStudent(String playId, String fromStudentId, String toStudentId) {
+        if (StringUtils.isBlank(playId)) {
+            return ResultData.errorMsg("playId is null");
+        }
+        if (StringUtils.isBlank(fromStudentId)) {
+            return ResultData.errorMsg("fromStudentId is null");
+        }
+        if (StringUtils.isBlank(toStudentId)) {
+            return ResultData.errorMsg("toStudentId is null");
+        }
+        return playService.deleteShowStudent(playId, fromStudentId, toStudentId);
+    }
+
 }

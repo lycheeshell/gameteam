@@ -21,4 +21,9 @@ public interface PlayService {
 
     ResultData getPlayMembers(String playId);
 
+    ResultData getShowStudent(String playId, String fromStudentId, String toStudentId);
+
+    ResultData addShowStudent(String playId, String fromStudentId, String toStudentId);
+
+    ResultData deleteShowStudent(String playId, String fromStudentId, String toStudentId);
 }

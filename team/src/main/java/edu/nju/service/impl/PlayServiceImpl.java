@@ -2,9 +2,11 @@ package edu.nju.service.impl;
 
 import edu.nju.dao.ParticipantDao;
 import edu.nju.dao.PlayDao;
+import edu.nju.dao.ShowDao;
 import edu.nju.dao.StudentDao;
 import edu.nju.model.Participant;
 import edu.nju.model.Play;
+import edu.nju.model.Show;
 import edu.nju.model.Student;
 import edu.nju.service.PlayService;
 import edu.nju.util.MailUtil;
@@ -35,6 +37,9 @@ public class PlayServiceImpl implements PlayService {
 
     @Autowired
     private ParticipantDao participantDao;
+
+    @Autowired
+    private ShowDao showDao;
 
     @Override
     public ResultData create(Play play) {
@@ -94,7 +99,7 @@ public class PlayServiceImpl implements PlayService {
         map.put("studentId", studentId);
         //检查信誉分是否有60
         ResultData creditResponse = studentDao.query(map);
-        Student student = ((List<Student>) creditResponse.getData()).get(0);
+        Student student = (Student) creditResponse.getData();
         if (student.getCredit() < 60) {
             result = ResultData.ok();
             result.setData(Integer.valueOf(-1));
@@ -150,7 +155,7 @@ public class PlayServiceImpl implements PlayService {
                     mapTmp.clear();
                     mapTmp.put("studentId", par.getStudentId());
                     ResultData stuQueryResponse = studentDao.query(mapTmp);
-                    Student stu = ((List<Student>) stuQueryResponse.getData()).get(0);
+                    Student stu = (Student) stuQueryResponse.getData();
                     if (stu.getEmail().length() > 1) {
                         MailUtil.sendMail(stu.getEmail(), "组局成功通知", mailMessage);
                     }
@@ -209,7 +214,16 @@ public class PlayServiceImpl implements PlayService {
                     return result;
                 }
 
-                //发送组局失败的邮件
+                //扣除退出者的信誉分
+                Map<String, Object> studentMap = new HashMap<>();
+                map.put("studentId", studentId);
+                ResultData creditResponse = studentDao.updateCreditQuit(studentMap);
+                if (!creditResponse.isOK()) {
+                    result = ResultData.errorMsg("Fail to update student credit to database");
+                    return result;
+                }
+
+                //向其他学生发送组局失败的邮件
                 Map<String, Object> mapTmp = new HashMap<>();
                 StringBuilder sb = new StringBuilder();
                 sb.append("由于有人退出，您参与的在").append(play.getProvince()).append(play.getCity()).append(play.getCounty())
@@ -221,7 +235,7 @@ public class PlayServiceImpl implements PlayService {
                         mapTmp.clear();
                         mapTmp.put("studentId", par.getStudentId());
                         ResultData stuQueryResponse = studentDao.query(mapTmp);
-                        Student stu = ((List<Student>) stuQueryResponse.getData()).get(0);
+                        Student stu = (Student) stuQueryResponse.getData();
                         if (stu.getEmail().length() > 1) {
                             MailUtil.sendMail(stu.getEmail(), "组局人员退出变动通知", mailMessage);
                         }
@@ -232,15 +246,6 @@ public class PlayServiceImpl implements PlayService {
 //                return result;
                 }
             }
-        }
-
-        //扣除信誉分
-        Map<String, Object> studentMap = new HashMap<>();
-        map.put("studentId", studentId);
-        ResultData creditResponse = studentDao.updateCreditQuit(studentMap);
-        if (!creditResponse.isOK()) {
-            result = ResultData.errorMsg("Fail to update student credit to database");
-            return result;
         }
 
         //删除参与者
@@ -263,6 +268,63 @@ public class PlayServiceImpl implements PlayService {
             result = ResultData.errorMsg("query play error");
         } else if (response.isEmpty()) {
             result = ResultData.empty(response.getData());
+        } else {
+            result = ResultData.ok(response.getData());
+        }
+        return result;
+    }
+
+    @Override
+    public ResultData getShowStudent(String playId, String fromStudentId, String toStudentId) {
+        ResultData result;
+        Map<String, Object> map = new HashMap<>();
+        map.put("playId", playId);
+        map.put("fromStudentId", fromStudentId);
+        map.put("toStudentId", toStudentId);
+        ResultData response = showDao.query(map);
+        if (!response.isOK()) {
+            result = ResultData.errorMsg("query show error");
+        } else if (response.isEmpty()) {
+            result = ResultData.empty(response.getData());
+        } else {
+            map.clear();
+            map.put("studentId", fromStudentId);
+            ResultData studentResponse = studentDao.query(map);
+            if (!studentResponse.isOK()) {
+                result = ResultData.errorMsg("Fail to query student from database");
+            } else {
+                result = ResultData.ok(studentResponse.getData());
+            }
+        }
+        return result;
+    }
+
+    @Override
+    public ResultData addShowStudent(String playId, String fromStudentId, String toStudentId) {
+        ResultData result;
+        Show show = new Show();
+        show.setPlayId(playId);
+        show.setFromStudentId(fromStudentId);
+        show.setToStudentId(toStudentId);
+        ResultData response = showDao.insert(show);
+        if (!response.isOK()) {
+            result = ResultData.errorMsg("Fail to insert show to database");
+        } else {
+            result = ResultData.ok(response.getData());
+        }
+        return result;
+    }
+
+    @Override
+    public ResultData deleteShowStudent(String playId, String fromStudentId, String toStudentId) {
+        ResultData result;
+        Map<String, Object> map = new HashMap<>();
+        map.put("playId", playId);
+        map.put("fromStudentId", fromStudentId);
+        map.put("toStudentId", toStudentId);
+        ResultData response = showDao.delete(map);
+        if (!response.isOK()) {
+            result = ResultData.errorMsg("query play error");
         } else {
             result = ResultData.ok(response.getData());
         }

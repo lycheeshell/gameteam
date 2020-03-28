@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="nju.team.show">
+    <resultMap id="infoVo" type="edu.nju.model.Show">
+        <result property="showId" column="show_id"></result>
+        <result property="playId" column="play_id"></result>
+        <result property="fromStudentId" column="from_id"></result>
+        <result property="toStudentId" column="to_id"></result>
+        <result property="blockFlag" column="block_flag"></result>
+        <result property="createAt" column="create_time"></result>
+    </resultMap>
+
+    <insert id="insert" parameterType="edu.nju.model.Show">
+        insert into gameteam.show(show_id, play_id, from_id, to_id, block_flag, create_time)
+        values (#{showId}, #{playId}, #{fromStudentId}, #{toStudentId}, #{blockFlag}, #{createAt})
+    </insert>
+
+    <delete id="delete" parameterType="java.util.Map">
+        DELETE FROM gameteam.show
+        WHERE play_id = #{playId} AND from_id = #{fromStudentId} AND to_id =#{toStudentId}
+    </delete>
+
+    <select id="query" parameterType="java.util.Map" resultMap="infoVo">
+        select show_id, play_id, from_id, to_id, block_flag, create_time
+        from gameteam.show
+        where play_id = #{playId} AND from_id = #{fromStudentId} AND to_id =#{toStudentId}
+    </select>
+
+</mapper>

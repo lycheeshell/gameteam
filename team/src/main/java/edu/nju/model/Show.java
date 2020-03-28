@@ -9,7 +9,7 @@ public class Show extends Entity {
 
     private String showId;
     private String playId;
-    private String fromStudetnId;
+    private String fromStudentId;
     private String toStudentId;
 
     public Show() {
@@ -32,12 +32,12 @@ public class Show extends Entity {
         this.playId = playId;
     }
 
-    public String getFromStudetnId() {
-        return fromStudetnId;
+    public String getFromStudentId() {
+        return fromStudentId;
     }
 
-    public void setFromStudetnId(String fromStudetnId) {
-        this.fromStudetnId = fromStudetnId;
+    public void setFromStudentId(String fromStudentId) {
+        this.fromStudentId = fromStudentId;
     }
 
     public String getToStudentId() {
