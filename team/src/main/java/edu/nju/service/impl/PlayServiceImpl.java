@@ -140,9 +140,7 @@ public class PlayServiceImpl implements PlayService {
 
         //检查是否超过组局的开始时间
         String playStartTime = playList.get(0).getStartTime();
-System.out.println(playStartTime);
-        if (!earlierThenNow(playStartTime)) {
-            System.out.println("已超过组局时间！");
+        if (earlierThenNow(playStartTime)) {
             result = ResultData.errorMsg("已超过组局时间！");
             return result;
         }
@@ -233,7 +231,7 @@ System.out.println(playStartTime);
 
         //检查是否超过组局的开始时间
         String playStartTime = play.getStartTime();
-        if (!earlierThenNow(playStartTime)) {
+        if (earlierThenNow(playStartTime)) {
             result = ResultData.errorMsg("已超过组局时间！");
             return result;
         }

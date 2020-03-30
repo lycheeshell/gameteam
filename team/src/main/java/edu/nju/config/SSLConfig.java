@@ -47,7 +47,7 @@ public class SSLConfig {
     private Connector initiateHttpConnector() {
         Connector connector = new Connector("org.apache.coyote.http11.Http11NioProtocol");
         connector.setScheme("http");
-        connector.setPort(80); // 监听http80端口号(http默认为80端口)
+        connector.setPort(8010); // 监听http8010端口号 (http默认为80端口)
         connector.setSecure(false);
         connector.setRedirectPort(443); // 监听到80端口之后重定向到443端口(https默认为443)
         return connector;
