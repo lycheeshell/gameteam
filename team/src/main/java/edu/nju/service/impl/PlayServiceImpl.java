@@ -16,6 +16,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -90,6 +94,22 @@ public class PlayServiceImpl implements PlayService {
         return result;
     }
 
+    private boolean earlierThenNow(String time) {
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date d = null;
+        try {
+            d = df.parse(time);
+        } catch (ParseException e) {
+            System.out.println(e.getMessage());
+        }
+        
+        if(d.before(new Date())) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     @Override
     @Transactional
     public ResultData addParticipant(String playId, String studentId) {
@@ -115,6 +135,13 @@ public class PlayServiceImpl implements PlayService {
         if (participantList.size() >= playList.get(0).getMaxPerson()) {
             result = ResultData.empty();
             result.setMsg("已达组局的最大人数，加入失败");
+            return result;
+        }
+
+        //检查是否超过组局的开始时间
+        String playStartTime = playList.get(0).getStartTime();
+        if (!earlierThenNow(playStartTime)) {
+            result = ResultData.errorMsg("已超过组局时间！");
             return result;
         }
 
@@ -199,6 +226,13 @@ public class PlayServiceImpl implements PlayService {
         Play play = ((List<Play>) queryResponse.getData()).get(0);
         if (play.getStatus() > 1) {
             result = ResultData.errorMsg("游戏已结束，退出失败");
+            return result;
+        }
+
+        //检查是否超过组局的开始时间
+        String playStartTime = play.getStartTime();
+        if (!earlierThenNow(playStartTime)) {
+            result = ResultData.errorMsg("已超过组局时间！");
             return result;
         }
 
