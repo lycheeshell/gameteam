@@ -34,8 +34,8 @@ public class StudentServiceImpl implements StudentService {
 
     @Value("${appid}")
     private String appid;
-    @Value("${secret}")
-    private String secret;
+
+    private String secret = "c362bebe1979032f8d00b431813388ac";
     @Value("${grant_type}")
     private String grantType;
     @Value("${url}")

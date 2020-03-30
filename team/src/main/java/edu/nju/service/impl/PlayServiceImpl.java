@@ -238,6 +238,16 @@ public class PlayServiceImpl implements PlayService {
 
         //如果组局人数刚好等于最小人数，将组局状态设置为0
         if (play.getStatus() == 1) {
+
+            //扣除退出者的信誉分
+            Map<String, Object> studentMap = new HashMap<>();
+            map.put("studentId", studentId);
+            ResultData creditResponse = studentDao.updateCreditQuit(studentMap);
+            if (!creditResponse.isOK()) {
+                result = ResultData.errorMsg("Fail to update student credit to database");
+                return result;
+            }
+
             ResultData participantResponse = participantDao.query(map);
             List<Participant> participantList = (List<Participant>) participantResponse.getData();
             if (participantList.size() == play.getMinPerson()) {
@@ -245,15 +255,6 @@ public class PlayServiceImpl implements PlayService {
                 ResultData updateResponse = playDao.update(play);
                 if (!updateResponse.isOK()) {
                     result = ResultData.errorMsg("Fail to update play to database");
-                    return result;
-                }
-
-                //扣除退出者的信誉分
-                Map<String, Object> studentMap = new HashMap<>();
-                map.put("studentId", studentId);
-                ResultData creditResponse = studentDao.updateCreditQuit(studentMap);
-                if (!creditResponse.isOK()) {
-                    result = ResultData.errorMsg("Fail to update student credit to database");
                     return result;
                 }
 
