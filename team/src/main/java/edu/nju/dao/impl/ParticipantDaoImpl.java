@@ -66,8 +66,8 @@ public class ParticipantDaoImpl extends BaseDao implements ParticipantDao {
     public ResultData update(Participant participant) {
         ResultData result;
         try {
-            sqlSession.update("nju.team.participant.update", participant);
-            result = ResultData.ok(participant);
+            int updateNum = sqlSession.update("nju.team.participant.update", participant);
+            result = ResultData.ok(Integer.valueOf(updateNum));
         }
         catch (Exception e) {
             System.out.println(e.getMessage());

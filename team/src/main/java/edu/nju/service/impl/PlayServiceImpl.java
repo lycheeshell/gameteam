@@ -393,6 +393,9 @@ public class PlayServiceImpl implements PlayService {
         participant.setStudentId(studentId);
         participant.setSignIn(1);
         ResultData response = participantDao.update(participant);
+        if (((Integer)response.getData()) == 0) {
+            result = ResultData.errorMsg("尚未加入该组局！");
+        }
         if (!response.isOK()) {
             result = ResultData.errorMsg("update participant error");
         } else {
@@ -402,9 +405,6 @@ public class PlayServiceImpl implements PlayService {
         map.clear();
         map.put("studentId", studentId);
         ResultData studentResponse = studentDao.updateCreditSignIn(map);
-        if (studentResponse.isEmpty()) {
-            result = ResultData.errorMsg("尚未加入该组局！");
-        }
         if (!studentResponse.isOK()) {
             result = ResultData.errorMsg("Fail to update student credit to database");
             return result;
