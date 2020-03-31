@@ -373,14 +373,13 @@ public class PlayServiceImpl implements PlayService {
         ResultData result;
         Map<String, Object> map = new HashMap<>();
         map.put("playId", playId);
-        map.put("studentId", studentId);
 
         //检查组局是否在时间范围内
         ResultData queryResponse = playDao.query(map);
         Play play = ((List<Play>) queryResponse.getData()).get(0);
         String startTime = play.getStartTime();
         String endTime = play.getEndTime();
-        if (earlierThenNow(startTime) && !earlierThenNow(endTime)) {
+        if (!(earlierThenNow(startTime) && !earlierThenNow(endTime))) {
             result = ResultData.errorMsg("请在组局时间范围内签到！");
             return result;
         }
@@ -396,6 +395,8 @@ public class PlayServiceImpl implements PlayService {
             result = ResultData.ok(response.getData());
         }
 
+        map.clear();
+        map.put("studentId", studentId);
         ResultData studentResponse = studentDao.updateCreditSignIn(map);
         if (!studentResponse.isOK() || studentResponse.isEmpty()) {
             result = ResultData.errorMsg("Fail to update student credit to database");
