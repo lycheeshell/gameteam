@@ -245,6 +245,7 @@ public class PlayServiceImpl implements PlayService {
         }
         if (((Integer)deleteResponse.getData()) == 0) {
             result = ResultData.errorMsg("尚未加入该组局！");
+            return result;
         }
         result = ResultData.ok(deleteResponse.getData());
 
@@ -395,6 +396,7 @@ public class PlayServiceImpl implements PlayService {
         ResultData response = participantDao.update(participant);
         if (((Integer)response.getData()) == 0) {
             result = ResultData.errorMsg("尚未加入该组局！");
+            return result;
         }
         if (!response.isOK()) {
             result = ResultData.errorMsg("update participant error");
