@@ -22,4 +22,7 @@ public interface PlayDao {
     ResultData getPlaysByStudentId(Map<String, Object> condition);
 
     ResultData getPlayMembers(Map<String, Object> condition);
+
+    ResultData queryOneDay();
+
 }

@@ -118,4 +118,22 @@ public class PlayDaoImpl extends BaseDao implements PlayDao {
         }
         return result;
     }
+
+    @Override
+    public ResultData queryOneDay() {
+        ResultData result;
+        try{
+            List<Play> list = sqlSession.selectList("nju.team.play.queryOneDay");
+            if (list.isEmpty()) {
+                result = ResultData.empty(list);
+            } else {
+                result = ResultData.ok(list);
+            }
+        }
+        catch (Exception e) {
+            System.out.println(e.getMessage());
+            result = ResultData.errorMsg(e.getMessage());
+        }
+        return result;
+    }
 }

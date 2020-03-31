@@ -16,11 +16,13 @@
 迭代二：
 11.对用户设置信誉分，对于信誉分低于一定值的用户，禁止其参与组局（初始100分，低于60禁止参与组局）
 12.人数凑齐的游戏，提前退出游戏，扣除信誉分（扣5分）；人数没有凑齐不扣信誉分
-13.人数凑齐的游戏，提前一天给每名玩家发送通知邮件要求确认前往，没有确认，扣除其信誉分（扣10分）
-14.游戏开始前三个小时，如果确认的人数低于人数下限，向游戏其他玩家发送有玩家退出游戏取消的通知邮件
-15.在游戏设置的时间范围内签到，没有签到的扣除信誉分（扣25分），签到后增加玩家在该游戏的熟练分10分
-16.点击每个游戏组局后显示组队的其他成员（昵称、头像），点击这个成员，如果该玩家对你展示信息，你可以看到其资料信息；根据对该玩家的印象，选择是否向其展示自己的资料，取消向其展示资料
+13.组局成功的情况下，需要在游戏设置的时间范围内（开始时间——结束时间之间）签到，没有签到的扣除信誉分（扣25分），签到后增加玩家在该游戏的熟练分10分（上不封顶）
+14.根据参与游戏后对某名玩家的印象，选择是否向其展示自己的资料，取消向其展示资料
+15.点击每个游戏组局后显示组队的其他成员（昵称、头像），点击这个成员，如果该玩家对你展示信息，你可以看到其资料信息
 
+这俩货暂时就取消了。。。有点点麻烦。。。。。
+delete1.人数凑齐的游戏，提前一天给每名玩家发送通知邮件要求确认前往，没有确认，扣除其信誉分（扣10分）
+delete2.游戏开始前三个小时，如果确认的人数低于人数下限，向游戏其他玩家发送有玩家退出游戏取消的通知邮件
 
 
 表的设计：所有表都有两个列：block_flag记录删除状态, create_time记录插入的时间
@@ -30,7 +32,7 @@
 游戏表game(game_id,name,description,image_url)
 熟练表adept(adept_id,student_id,game_id,score)
 组局表play(play_id,game_id,start_time,end_time,province,city,location,min_person,max_person,min_adept_score,status)
-参与表participant(participant_id,play_id,student_id)
+参与表participant(participant_id,play_id,student_id,sign_in)
 展示表show(show_id,play_id,from_id,to_id)
 题库表question(question_id,game_id,decription,a,b,c,d,correct_option)
 

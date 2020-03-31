@@ -162,4 +162,21 @@ public class PlayController {
         return playService.deleteShowStudent(playId, fromStudentId, toStudentId);
     }
 
+    /**
+     * 签到
+     * @param playId
+     * @param studentId
+     * @return
+     */
+    @PostMapping(value = "/signIn")
+    public ResultData signIn(String playId, String studentId) {
+        if (StringUtils.isBlank(playId)) {
+            return ResultData.errorMsg("playId is null");
+        }
+        if (StringUtils.isBlank(studentId)) {
+            return ResultData.errorMsg("studentId is null");
+        }
+        return playService.signIn(playId, studentId);
+    }
+
 }

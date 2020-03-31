@@ -18,4 +18,6 @@ public interface ParticipantDao {
 
     ResultData query(Map<String, Object> condition);
 
+    ResultData update(Participant participant);
+
 }

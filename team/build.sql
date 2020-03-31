@@ -1,4 +1,4 @@
-CREATE DATABASE  IF NOT EXISTS `gameteam` /*!40100 DEFAULT CHARACTER SET utf8 */;
+CREATE DATABASE  IF NOT EXISTS `gameteam` /*!40100 DEFAULT CHARACTER SET latin1 */;
 USE `gameteam`;
 -- MySQL dump 10.13  Distrib 8.0.17, for Win64 (x86_64)
 --
@@ -85,6 +85,7 @@ CREATE TABLE `participant` (
   `participant_id` varchar(40) NOT NULL,
   `play_id` varchar(40) NOT NULL,
   `student_id` varchar(40) NOT NULL,
+  `sign_in` tinyint(1) DEFAULT NULL,
   `block_flag` tinyint(1) DEFAULT NULL,
   `create_time` datetime DEFAULT NULL,
   PRIMARY KEY (`participant_id`),
@@ -207,4 +208,4 @@ CREATE TABLE `student` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-02-14 19:03:01
+-- Dump completed on 2020-03-31 14:10:02

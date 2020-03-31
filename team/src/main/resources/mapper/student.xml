@@ -68,12 +68,26 @@
     <update id="updateCreditQuit" parameterType="java.util.Map">
         update gameteam.student
         <set>
-            <if test="credit != null">
-                credit = credit - 5,
-            </if>
-            student_id = #{studentId}
+            credit = credit - 5
         </set>
         where student_id = #{studentId}
+    </update>
+
+    <update id="updateCreditSignIn" parameterType="java.util.Map">
+        update gameteam.student
+        <set>
+            credit = credit + 10
+        </set>
+        where student_id = #{studentId}
+    </update>
+
+    <update id="updateCreditUnsigned" parameterType="java.util.Map">
+        update gameteam.student
+        <set>
+            credit = credit - 25
+        </set>
+        where block_flag = 0
+            AND student_id = any(select student_id from gameteam.participant where play_id = #{playId} AND sign_in = 0)
     </update>
 
     <update id="updateImage" parameterType="edu.nju.model.Student">

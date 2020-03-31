@@ -26,4 +26,7 @@ public interface PlayService {
     ResultData addShowStudent(String playId, String fromStudentId, String toStudentId);
 
     ResultData deleteShowStudent(String playId, String fromStudentId, String toStudentId);
+
+    ResultData signIn(String playId, String studentId);
+
 }

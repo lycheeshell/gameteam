@@ -25,4 +25,8 @@ public interface StudentDao {
 
     ResultData updateCreditQuit(Map<String, Object> condition);
 
+    ResultData updateCreditSignIn(Map<String, Object> condition);
+
+    ResultData updateCreditUnsigned(Map<String, Object> condition);
+
 }

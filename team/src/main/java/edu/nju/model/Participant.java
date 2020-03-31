@@ -10,6 +10,7 @@ public class Participant extends Entity {
     private String participantId;
     private String playId;
     private String studentId;
+    private int signIn;     //0未签到， 1已签到
 
     public Participant() {
         super();
@@ -37,5 +38,13 @@ public class Participant extends Entity {
 
     public void setStudentId(String studentId) {
         this.studentId = studentId;
+    }
+
+    public int getSignIn() {
+        return signIn;
+    }
+
+    public void setSignIn(int signIn) {
+        this.signIn = signIn;
     }
 }

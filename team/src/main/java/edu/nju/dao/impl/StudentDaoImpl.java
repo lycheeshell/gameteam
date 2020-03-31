@@ -131,4 +131,36 @@ public class StudentDaoImpl extends BaseDao implements StudentDao {
         return result;
     }
 
+    @Override
+    public ResultData updateCreditSignIn(Map<String, Object> condition) {
+        ResultData result;
+        try{
+            int updateNum = sqlSession.update("nju.team.student.updateCreditSignIn", condition);
+            if (updateNum != 1) {
+                result = ResultData.empty();
+            } else {
+                result = ResultData.ok();
+            }
+        }
+        catch (Exception e) {
+            System.out.println(e.getMessage());
+            result = ResultData.errorMsg(e.getMessage());
+        }
+        return result;
+    }
+
+    @Override
+    public ResultData updateCreditUnsigned(Map<String, Object> condition){
+        ResultData result;
+        try{
+            int updateNum = sqlSession.update("nju.team.student.updateCreditUnsigned", condition);
+            result = ResultData.ok(Integer.valueOf(updateNum));
+        }
+        catch (Exception e) {
+            System.out.println(e.getMessage());
+            result = ResultData.errorMsg(e.getMessage());
+        }
+        return result;
+    }
+
 }

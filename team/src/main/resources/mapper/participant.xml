@@ -5,13 +5,14 @@
         <result property="participantId" column="participant_id"></result>
         <result property="playId" column="play_id"></result>
         <result property="studentId" column="student_id"></result>
+        <result property="signIn" column="sign_in"></result>
         <result property="blockFlag" column="block_flag"></result>
         <result property="createAt" column="create_time"></result>
     </resultMap>
 
     <insert id="insert" parameterType="edu.nju.model.Participant">
-        insert into gameteam.participant(participant_id, play_id, student_id, block_flag, create_time)
-        SELECT  #{participantId}, #{playId}, #{studentId}, #{blockFlag}, #{createAt}
+        insert into gameteam.participant(participant_id, play_id, student_id, sign_in, block_flag, create_time)
+        SELECT  #{participantId}, #{playId}, #{studentId}, #{signIn}, #{blockFlag}, #{createAt}
         FROM dual WHERE not exists
         (select participant_id from gameteam.participant as p
          where p.play_id = #{playId} and p.student_id = #{studentId} and p.block_flag = 0)
@@ -23,7 +24,7 @@
     </delete>
 
     <select id="query" parameterType="java.util.Map" resultMap="infoVo">
-        select participant_id, play_id, student_id, block_flag, create_time
+        select participant_id, play_id, student_id, sign_in, block_flag, create_time
         from gameteam.participant
         where block_flag = 0
         <if test="studentId != null">
@@ -33,5 +34,13 @@
             AND play_id = #{playId}
         </if>
     </select>
+
+    <update id="update" parameterType="edu.nju.model.Participant">
+        update gameteam.participant
+        <set>
+            sign_in = #{signIn}
+        </set>
+        where play_id = #{playId} and student_id = #{studentId}
+    </update>
 
 </mapper>
