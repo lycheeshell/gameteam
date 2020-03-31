@@ -35,8 +35,8 @@ public class ParticipantDaoImpl extends BaseDao implements ParticipantDao {
     public ResultData delete(Map<String, Object> condition) {
         ResultData result;
         try {
-            sqlSession.delete("nju.team.participant.delete",condition);
-            result = ResultData.ok();
+            int deleteNum = sqlSession.delete("nju.team.participant.delete",condition);
+            result = ResultData.ok(Integer.valueOf(deleteNum));
         } catch ( Exception e) {
             System.out.println(e.getMessage());
             result = ResultData.errorMsg(e.getMessage());

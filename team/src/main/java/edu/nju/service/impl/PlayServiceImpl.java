@@ -237,6 +237,17 @@ public class PlayServiceImpl implements PlayService {
             return result;
         }
 
+        //删除参与者
+        ResultData deleteResponse = participantDao.delete(map);
+        if (!deleteResponse.isOK()) {
+            result = ResultData.errorMsg("Fail to delete participant from database");
+            return result;
+        }
+        if (((Integer)deleteResponse.getData()) == 0) {
+            result = ResultData.errorMsg("尚未加入该组局！");
+        }
+        result = ResultData.ok(deleteResponse.getData());
+
         //如果组局人数刚好等于最小人数，将组局状态设置为0
         if (play.getStatus() == 1) {
 
@@ -284,13 +295,6 @@ public class PlayServiceImpl implements PlayService {
             }
         }
 
-        //删除参与者
-        ResultData deleteResponse = participantDao.delete(map);
-        if (!deleteResponse.isOK()) {
-            result = ResultData.errorMsg("Fail to delete participant from database");
-            return result;
-        }
-        result = ResultData.ok(deleteResponse.getData());
         return result;
     }
 
@@ -398,7 +402,10 @@ public class PlayServiceImpl implements PlayService {
         map.clear();
         map.put("studentId", studentId);
         ResultData studentResponse = studentDao.updateCreditSignIn(map);
-        if (!studentResponse.isOK() || studentResponse.isEmpty()) {
+        if (studentResponse.isEmpty()) {
+            result = ResultData.errorMsg("尚未加入该组局！");
+        }
+        if (!studentResponse.isOK()) {
             result = ResultData.errorMsg("Fail to update student credit to database");
             return result;
         }
