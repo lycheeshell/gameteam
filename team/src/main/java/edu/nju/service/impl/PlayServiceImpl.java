@@ -101,6 +101,7 @@ public class PlayServiceImpl implements PlayService {
             d = df.parse(time);
         } catch (ParseException e) {
             System.out.println(e.getMessage());
+            return false;
         }
 
         if(d.before(new Date())) {
