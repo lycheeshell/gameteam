@@ -128,6 +128,7 @@ public class PlayServiceImpl implements PlayService {
         }
 
         //检查是否超过组局的最大人数
+        map.clear();
         map.put("playId", playId);
         ResultData participantResponse = participantDao.query(map);
         List<Participant> participantList = (List<Participant>) participantResponse.getData();
@@ -158,7 +159,6 @@ public class PlayServiceImpl implements PlayService {
         result = ResultData.ok(insertResponse.getData());
 
         //如果组局参与者人数达到最小，更新游戏的状态为1
-        System.out.println("participantList.size = " + participantList.size());
         if (playList.get(0).getMinPerson() == 1 + participantList.size()) {
             Play play = playList.get(0);
 //            Play play = new Play();
@@ -170,6 +170,7 @@ public class PlayServiceImpl implements PlayService {
                 return result;
             }
 
+            System.out.println("start send mails");
             //发送组局成功的邮件
             Map<String, Object> mapTmp = new HashMap<>();
             mapTmp.put("playId", playId);
@@ -178,17 +179,19 @@ public class PlayServiceImpl implements PlayService {
             StringBuilder sb = new StringBuilder();
             sb.append("您参与的在").append(pla.getProvince()).append(pla.getCity()).append(pla.getCounty())
                     .append("于").append(pla.getStartTime())
-                    .append("开始的线下组局已达最少参与人数，请您到时签到并参与。如未签到，将扣除10分的信誉分。");
+                    .append("开始的线下组局已达最少参与人数，请您到时签到并参与。如未签到，将扣除25分的信誉分。");
             String mailMessage = sb.toString();
             try {
+                MailUtil.sendMail(student.getEmail(), "组局成功通知", mailMessage);
+                System.out.println("mail has been send to " + student.getAccount() + ", " + student.getEmail());
                 for (Participant par : participantList) {
                     mapTmp.clear();
                     mapTmp.put("studentId", par.getStudentId());
                     ResultData stuQueryResponse = studentDao.query(mapTmp);
                     Student stu = (Student) stuQueryResponse.getData();
-                    System.out.println("mail has been send to " + stu.getAccount());
                     if (stu.getEmail().length() > 1) {
                         MailUtil.sendMail(stu.getEmail(), "组局成功通知", mailMessage);
+                        System.out.println("mail has been send to " + stu.getAccount() + ", " + stu.getEmail());
                     }
                 }
             } catch (Exception e) {
