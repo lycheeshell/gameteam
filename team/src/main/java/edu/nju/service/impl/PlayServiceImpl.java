@@ -160,8 +160,10 @@ public class PlayServiceImpl implements PlayService {
 
         //如果组局参与者人数达到最小，更新游戏的状态为1
         if (playList.get(0).getMinPerson() <= 1 + participantList.size()) {
-            Play play = new Play();
-            play.setPlayId(playId);
+            ResultData queryResponse = playDao.query(map);
+            Play play = ((List<Play>) queryResponse.getData()).get(0);
+//            Play play = new Play();
+//            play.setPlayId(playId);
             play.setStatus(1);
             ResultData updateResponse = playDao.update(play);
             if (!updateResponse.isOK()) {
