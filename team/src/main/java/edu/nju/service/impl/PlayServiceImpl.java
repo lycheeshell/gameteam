@@ -134,8 +134,7 @@ public class PlayServiceImpl implements PlayService {
         ResultData playResponse = playDao.query(map);
         List<Play> playList = (List<Play>) playResponse.getData();
         if (participantList.size() >= playList.get(0).getMaxPerson()) {
-            result = ResultData.empty();
-            result.setMsg("已达组局的最大人数，加入失败");
+            result = ResultData.errorMsg("已达组局的最大人数，加入失败！");
             return result;
         }
 
@@ -159,9 +158,9 @@ public class PlayServiceImpl implements PlayService {
         result = ResultData.ok(insertResponse.getData());
 
         //如果组局参与者人数达到最小，更新游戏的状态为1
-        if (playList.get(0).getMinPerson() <= 1 + participantList.size()) {
-            ResultData queryResponse = playDao.query(map);
-            Play play = ((List<Play>) queryResponse.getData()).get(0);
+        System.out.println("participantList.size = " + participantList.size());
+        if (playList.get(0).getMinPerson() == 1 + participantList.size()) {
+            Play play = playList.get(0);
 //            Play play = new Play();
 //            play.setPlayId(playId);
             play.setStatus(1);
@@ -187,6 +186,7 @@ public class PlayServiceImpl implements PlayService {
                     mapTmp.put("studentId", par.getStudentId());
                     ResultData stuQueryResponse = studentDao.query(mapTmp);
                     Student stu = (Student) stuQueryResponse.getData();
+                    System.out.println("mail has been send to " + stu.getAccount());
                     if (stu.getEmail().length() > 1) {
                         MailUtil.sendMail(stu.getEmail(), "组局成功通知", mailMessage);
                     }
