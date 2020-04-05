@@ -259,10 +259,9 @@ public class PlayServiceImpl implements PlayService {
         if (play.getStatus() == 1) {
 
             //扣除退出者的信誉分
-            Map<String, Object> studentMap = new HashMap<>();
             map.clear();
             map.put("studentId", studentId);
-            ResultData creditResponse = studentDao.updateCreditQuit(studentMap);
+            ResultData creditResponse = studentDao.updateCreditQuit(map);
             if (!creditResponse.isOK() || creditResponse.isEmpty()) {
                 result = ResultData.errorMsg("Fail to update student credit to database");
                 return result;
