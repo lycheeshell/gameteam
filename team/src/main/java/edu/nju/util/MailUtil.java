@@ -1,11 +1,14 @@
 package edu.nju.util;
 
 import java.io.UnsupportedEncodingException;
+import java.security.GeneralSecurityException;
 import java.util.Properties;
 
-import javax.mail.MessagingException;
+import javax.mail.*;
+import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
+import com.sun.mail.util.MailSSLSocketFactory;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.mail.javamail.MimeMessageHelper;
 
@@ -62,6 +65,61 @@ public class MailUtil {
         messageHelper.setText(html, true);
         mailSender.send(mimeMessage);
         System.out.println("邮件已发送至" + to);
+    }
+
+    /**
+     * ssl加密发送邮件
+     *
+     * @param strMail   收件人
+     * @param strTitle  邮件标题
+     * @param strText   邮件内容
+     * @return
+     */
+    public static void sendEmail(String strMail, String strTitle, String strText){
+        try {
+            final Properties props = new Properties();
+            props.put("mail.smtp.auth", "true");
+            props.put("mail.smtp.host", "smtp.163.com");
+            //使用SSL加密SMTP通过465端口进行邮件发送
+            MailSSLSocketFactory sf = new MailSSLSocketFactory();
+            sf.setTrustAllHosts(true);
+            props.put("mail.smtp.ssl.enable","true");
+            props.put("mail.smtp.ssl.socketFactory",sf);
+            //你自己的邮箱
+            props.put("mail.user", USERNAME);
+            //你开启pop3/smtp时的验证码
+            props.put("mail.password", PASSWORD);
+            //此时将端口设置为465
+            props.put("mail.smtp.port", "465");
+            props.put("mail.smtp.starttls.enable", "true");
+            Authenticator authenticator = new Authenticator() {
+                protected PasswordAuthentication getPasswordAuthentication() {
+                    String userName = props.getProperty("mail.user");
+                    String password = props.getProperty("mail.password");
+                    return new PasswordAuthentication(userName, password);
+                }
+            };
+            // 使用环境属性和授权信息，创建邮件会话
+            Session mailSession = Session.getInstance(props, authenticator);
+            // 创建邮件消息
+            MimeMessage message = new MimeMessage(mailSession);
+            // 设置发件人
+            String username = props.getProperty("mail.user");
+            InternetAddress form = new InternetAddress(username);
+            message.setFrom(form);
+            InternetAddress to = new InternetAddress(strMail);
+            message.setRecipient(Message.RecipientType.TO, to);
+            // 设置邮件标题
+            message.setSubject(strTitle);
+            // 设置邮件的内容体
+            message.setContent(strText, "text/html;charset=UTF-8");
+            // 发送邮件
+            Transport.send(message);
+        } catch (MessagingException e) {
+            System.out.println("发送邮件失败:"+e.getMessage());
+        } catch (GeneralSecurityException e) {
+            System.out.println("发送邮件失败:"+e.getMessage());
+        }
     }
 
 }

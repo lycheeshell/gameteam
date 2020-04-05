@@ -182,7 +182,7 @@ public class PlayServiceImpl implements PlayService {
                     .append("开始的线下组局已达最少参与人数，请您到时签到并参与。如未签到，将扣除25分的信誉分。");
             String mailMessage = sb.toString();
             try {
-                MailUtil.sendMail(student.getEmail(), "组局成功通知", mailMessage);
+                MailUtil.sendEmail(student.getEmail(), "组局成功通知", mailMessage);
                 System.out.println("mail has been send to " + student.getAccount() + ", " + student.getEmail());
                 for (Participant par : participantList) {
                     mapTmp.clear();
@@ -190,7 +190,7 @@ public class PlayServiceImpl implements PlayService {
                     ResultData stuQueryResponse = studentDao.query(mapTmp);
                     Student stu = (Student) stuQueryResponse.getData();
                     if (stu.getEmail().length() > 1) {
-                        MailUtil.sendMail(stu.getEmail(), "组局成功通知", mailMessage);
+                        MailUtil.sendEmail(stu.getEmail(), "组局成功通知", mailMessage);
                         System.out.println("mail has been send to " + stu.getAccount() + ", " + stu.getEmail());
                     }
                 }
@@ -226,7 +226,6 @@ public class PlayServiceImpl implements PlayService {
         ResultData result;
         Map<String, Object> map = new HashMap<>();
         map.put("playId", playId);
-        map.put("studentId", studentId);
 
         //检查组局是否处于状态0或1
         ResultData queryResponse = playDao.query(map);
@@ -244,6 +243,7 @@ public class PlayServiceImpl implements PlayService {
         }
 
         //删除参与者
+        map.put("studentId", studentId);
         ResultData deleteResponse = participantDao.delete(map);
         if (!deleteResponse.isOK()) {
             result = ResultData.errorMsg("Fail to delete participant from database");
@@ -260,6 +260,7 @@ public class PlayServiceImpl implements PlayService {
 
             //扣除退出者的信誉分
             Map<String, Object> studentMap = new HashMap<>();
+            map.clear();
             map.put("studentId", studentId);
             ResultData creditResponse = studentDao.updateCreditQuit(studentMap);
             if (!creditResponse.isOK() || creditResponse.isEmpty()) {
@@ -267,6 +268,8 @@ public class PlayServiceImpl implements PlayService {
                 return result;
             }
 
+            map.clear();
+            map.put("playId", playId);
             ResultData participantResponse = participantDao.query(map);
             List<Participant> participantList = (List<Participant>) participantResponse.getData();
             if (participantList.size() == play.getMinPerson()) {
@@ -291,7 +294,8 @@ public class PlayServiceImpl implements PlayService {
                         ResultData stuQueryResponse = studentDao.query(mapTmp);
                         Student stu = (Student) stuQueryResponse.getData();
                         if (stu.getEmail().length() > 1) {
-                            MailUtil.sendMail(stu.getEmail(), "组局人员退出变动通知", mailMessage);
+                            MailUtil.sendEmail(stu.getEmail(), "组局人员退出变动通知", mailMessage);
+                            System.out.println("mail has been send to " + stu.getAccount() + ", " + stu.getEmail());
                         }
                     }
                 } catch (Exception e) {
